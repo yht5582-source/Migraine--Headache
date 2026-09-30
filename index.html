@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="依 ICHD-3 引導式問卷判定偏頭痛與頭痛診斷，並依台灣健保給付規定與學會指引評估 Botox、CGRP 單株抗體與 topiramate 預防治療資格。">
+<title>頭痛診斷與預防用藥審查</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: clinical console — masthead + tabs; diagnosis tab = guided questionnaire (left) + sticky ICHD-3 verdict with criterion letters (right); prevention tab = inputs (left) + eligibility cards and course timeline (right) */
+:root{
+  --paper:#f5f5f2; --panel:#ffffff; --ink:#1d1f18; --ink-2:#51554a; --ink-3:#80847a; --line:#d9dbd2; --line-2:#ebece5;
+  --accent:#56661c; --accent-ink:#ffffff; --accent-soft:#eef1dc;
+  --go:#2d7a4c; --go-soft:#e2f1e7; --warn:#946708; --warn-soft:#faf0d9; --stop:#b3372b; --stop-soft:#f8e2de; --info:#2f5f96; --info-soft:#e4edf8;
+  --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#12140f; --panel:#1a1c16; --ink:#e8eae1; --ink-2:#aab0a0; --ink-3:#7b8173; --line:#2d3127; --line-2:#22251d;
+  --accent:#b9cd6c; --accent-ink:#1b2208; --accent-soft:#262c15;
+  --go:#65c48b; --go-soft:#162a1f; --warn:#e4b852; --warn-soft:#2d2612; --stop:#f08a7a; --stop-soft:#381e1a; --info:#8fb6ea; --info-soft:#1a2738; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --paper:#12140f; --panel:#1a1c16; --ink:#e8eae1; --ink-2:#aab0a0; --ink-3:#7b8173; --line:#2d3127; --line-2:#22251d;
+  --accent:#b9cd6c; --accent-ink:#1b2208; --accent-soft:#262c15;
+  --go:#65c48b; --go-soft:#162a1f; --warn:#e4b852; --warn-soft:#2d2612; --stop:#f08a7a; --stop-soft:#381e1a; --info:#8fb6ea; --info-soft:#1a2738; color-scheme:dark }
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.65}
+.wrap{max-width:1220px;margin:0 auto;padding-inline:20px;padding-block:0 56px}
+@media (max-width:520px){.wrap{padding-inline:16px}}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;font-weight:700;letter-spacing:.01em}
+h1{font-size:clamp(24px,3.2vw,32px);line-height:1.25}
+h3{font-size:16.5px}
+p{margin:0}
+.muted{color:var(--ink-2)} .small{font-size:13px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.masthead{padding-block:28px 0;display:grid;gap:8px}
+.masthead .sub{color:var(--ink-2);max-width:74ch}
+.src{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.src span{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--ink-2);background:var(--panel)}
+.tabs{display:flex;gap:4px;margin-top:18px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tab{appearance:none;border:0;background:none;font:inherit;color:var(--ink-2);padding:10px 14px 11px;cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;font-weight:500}
+.tab b{font-family:var(--f-mono);font-weight:500;color:var(--ink-3);margin-right:6px;font-size:13px}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab[aria-selected="true"] b{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.pane{padding-top:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;min-width:0}
+.card>h3{margin-bottom:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.stack{display:grid;gap:16px;min-width:0}
+.row{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+.flabel{font-size:12.5px;color:var(--ink-2);font-weight:500}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:14px;cursor:pointer;padding:4px 0}
+.check input{margin-top:5px;accent-color:var(--accent);flex:none}
+.btn{appearance:none;font:inherit;font-size:13.5px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:7px;padding:6px 12px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;padding:2px;background:var(--paper)}
+.seg button{appearance:none;border:0;background:transparent;font:inherit;font-size:13.5px;padding:4px 11px;border-radius:6px;color:var(--ink-2);cursor:pointer;font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+input[type=number],input[type=date],select{font:inherit;font-size:14px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:5px 8px;min-width:0;max-width:100%}
+input[type=number]{width:76px;font-family:var(--f-mono)}
+.u{font-size:12px;color:var(--ink-3);white-space:nowrap}
+.pill{display:inline-block;font-size:11.5px;font-weight:500;border-radius:999px;padding:1px 9px;white-space:nowrap;vertical-align:1px}
+.pill.go{background:var(--go-soft);color:var(--go)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.stop{background:var(--stop-soft);color:var(--stop)} .pill.info{background:var(--info-soft);color:var(--info)} .pill.ac{background:var(--accent-soft);color:var(--accent)}
+.sample{font-size:12px;color:var(--warn);background:var(--warn-soft);border-radius:999px;padding:1px 10px;font-weight:500}
+.note{font-size:13px;color:var(--ink-2);border-left:3px solid var(--line);padding:4px 0 4px 12px}
+.alert{border-radius:8px;padding:10px 12px;font-size:14px;display:grid;gap:4px}
+.alert.warn{background:var(--warn-soft)} .alert.warn strong{color:var(--warn)}
+.alert.stop{background:var(--stop-soft)} .alert.stop strong{color:var(--stop)}
+.alert.go{background:var(--go-soft)} .alert.go strong{color:var(--go)}
+.alert.info{background:var(--info-soft)} .alert.info strong{color:var(--info)}
+ul.plain{margin:6px 0 0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-block;font-size:13.5px;border:1px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer;background:var(--paper);color:var(--ink-2);user-select:none}
+.chip input:checked+span{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chip.bad input:checked+span{background:var(--stop);border-color:var(--stop);color:#fff}
+.chip input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-weight:500;color:var(--ink-2);font-size:12.5px;white-space:nowrap}
+.tablebox{overflow-x:auto}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,400px);gap:18px;align-items:start}
+@media (max-width:980px){.two{grid-template-columns:minmax(0,1fr)}}
+.sticky{position:sticky;top:calc(12px + env(safe-area-inset-top,0px))}
+.step{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px}
+.step .no{font-family:var(--f-display);font-size:24px;color:var(--accent);line-height:1}
+.q{display:grid;gap:6px;margin-top:12px}
+.q2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px;margin-top:12px}
+@media (max-width:600px){.q2{grid-template-columns:minmax(0,1fr)}}
+.numrow{display:flex;flex-wrap:wrap;gap:12px 18px;margin-top:10px}
+.numrow .f{display:grid;gap:4px}
+/* verdict */
+.dx{border-top:1px solid var(--line-2);padding-top:12px;margin-top:12px}
+.dx:first-child{border-top:0;padding-top:0;margin-top:0}
+.dx-h{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.code{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:500}
+.dx-h b{font-family:var(--f-display);font-size:19px}
+.crit{display:grid;gap:3px;margin-top:6px;font-size:13.2px}
+.crit div{display:grid;grid-template-columns:22px 18px minmax(0,1fr);gap:4px}
+.crit .L{font-family:var(--f-mono);color:var(--ink-3)}
+.crit i{font-style:normal;font-family:var(--f-mono);text-align:center}
+.crit .y i{color:var(--go)} .crit .n i{color:var(--stop)} .crit .n span{color:var(--ink-2)}
+.more{font-size:13px;color:var(--ink-2);margin-top:12px}
+/* eligibility */
+.elig{border:1.5px solid var(--line);border-radius:10px;padding:12px 14px}
+.elig.ok{border-color:var(--go)} .elig.no{border-style:dashed}
+.elig-h{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.elig-h h3{font-size:16px}
+.elig .rule{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3)}
+.gate{display:grid;gap:4px;margin-top:8px;font-size:13.5px}
+.gate div{display:flex;gap:8px;align-items:flex-start}
+.gate i{font-style:normal;font-family:var(--f-mono);width:16px;flex:none;text-align:center}
+.gate .y i{color:var(--go)} .gate .n i{color:var(--stop)} .gate .na i{color:var(--ink-3)} .gate .na{color:var(--ink-3)}
+.tl{display:grid;gap:0;margin-top:6px}
+.tl div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;padding:6px 0;border-bottom:1px dashed var(--line-2);font-size:13.5px}
+.tl div:last-child{border-bottom:0}
+.tl .d{font-family:var(--f-mono);font-size:12.5px;color:var(--accent)}
+.fails{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px}
+@media (max-width:600px){.fails{grid-template-columns:minmax(0,1fr)}}
+.refs{padding-left:20px;margin:0;display:grid;gap:8px;font-size:13.8px}
+.refs a{color:var(--accent)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:860px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.disclaimer{margin-top:22px;font-size:13px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:14px;max-width:90ch}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);font-size:13.5px;padding:8px 16px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:10}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="eyebrow">Migraine &amp; headache · ICHD-3 · Preventive therapy review</div>
+    <h1>頭痛診斷與預防用藥審查</h1>
+    <p class="sub">以引導式問卷依 ICHD-3 判定偏頭痛、緊縮型頭痛、叢發性頭痛與藥物過度使用頭痛；再依台灣健保藥品給付規定與學會指引，自動判定 Botox、CGRP 單株抗體與 topiramate 預防治療是否符合給付或推薦標準。</p>
+    <div class="src"><span>ICHD-3（2018）</span><span>健保藥品給付規定 第一節（115.8.21）</span><span>台灣頭痛學會預防治療指引 2017</span><span>AHS 2021／2024</span><span>EHF 2022</span></div>
+    <nav class="tabs" role="tablist" aria-label="功能分頁">
+      <button class="tab" role="tab" id="tab-dx" aria-controls="dx" data-t="dx"><b>1</b>ICHD-3 引導式診斷</button>
+      <button class="tab" role="tab" id="tab-pv" aria-controls="pv" data-t="pv"><b>2</b>預防治療與給付評估</button>
+      <button class="tab" role="tab" id="tab-ref" aria-controls="ref" data-t="ref"><b>3</b>用藥速查與文獻</button>
+    </nav>
+  </header>
+
+  <!-- ============ 1. ICHD-3 ============ -->
+  <section class="pane" id="dx" role="tabpanel" aria-labelledby="tab-dx" hidden>
+    <div class="two">
+      <div class="stack">
+        <div class="card step">
+          <div class="no">1</div>
+          <div>
+            <div class="row" style="justify-content:space-between"><h3>危險徵象（SNNOOP10）</h3><span class="sample" id="d-sample">示例個案</span></div>
+            <p class="small muted">有任一項時應先排除次發性頭痛，原發性頭痛的診斷暫不成立。</p>
+            <div class="chips" id="rf" style="margin-top:8px"></div>
+          </div>
+        </div>
+        <div class="card step">
+          <div class="no">2</div>
+          <div>
+            <h3>發作型態</h3>
+            <div class="q2">
+              <div class="q" style="margin:0"><span class="flabel">過去類似發作次數</span><div class="seg" id="n-att"><button data-v="1">1 次</button><button data-v="2">2–4 次</button><button data-v="5">5–9 次</button><button data-v="10">≥ 10 次</button></div></div>
+              <div class="q" style="margin:0"><label class="flabel" for="dur">未治療或治療無效時，單次持續時間</label>
+                <select id="dur"><option value="a">&lt; 15 分鐘</option><option value="b">15–30 分鐘</option><option value="c">30 分鐘–3 小時</option><option value="d">3–4 小時</option><option value="e">4–72 小時</option><option value="f">3–7 天</option><option value="g">&gt; 7 天或持續不斷</option></select></div>
+            </div>
+            <div class="q2">
+              <div class="q" style="margin:0"><span class="flabel">位置</span><div class="seg" id="loc"><button data-v="uni">單側</button><button data-v="bi">雙側</button></div></div>
+              <div class="q" style="margin:0"><span class="flabel">性質</span><div class="seg" id="qual"><button data-v="puls">搏動性</button><button data-v="press">壓迫或緊箍感</button><button data-v="other">其他（刺痛、電擊）</button></div></div>
+              <div class="q" style="margin:0"><span class="flabel">強度</span><div class="seg" id="sev"><button data-v="1">輕度</button><button data-v="2">中度</button><button data-v="3">重度</button><button data-v="4">極重度</button></div></div>
+              <div class="q" style="margin:0"><span class="flabel">日常活動（走路、爬樓梯）會加劇或刻意避免</span><div class="seg" id="aggr"><button data-v="1">是</button><button data-v="0">否</button></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card step">
+          <div class="no">3</div>
+          <div>
+            <h3>伴隨症狀</h3>
+            <div class="chips" id="assoc" style="margin-top:4px"></div>
+            <div class="q"><label class="check"><input type="checkbox" id="aura"><span><b>有前兆</b>：完全可逆的神經症狀，通常在頭痛前或同時出現</span></label></div>
+            <div id="aura-block" class="q" style="padding-left:24px">
+              <span class="flabel">前兆類型</span><div class="chips" id="aura-type"></div>
+              <span class="flabel" style="margin-top:6px">前兆特徵（需 ≥ 3 項）</span><div id="aura-feat"></div>
+            </div>
+            <div class="q"><span class="flabel">同側自律神經症狀（叢發性頭痛線索）</span><div class="chips" id="auto"></div></div>
+            <div class="q"><label class="check"><input type="checkbox" id="cl-orb"><span>痛點在單側眼眶、眼眶上方或顳部</span></label>
+              <label class="check"><input type="checkbox" id="cl-freq"><span>發作期間頻率介於隔日 1 次至每日 8 次</span></label></div>
+          </div>
+        </div>
+        <div class="card step">
+          <div class="no">4</div>
+          <div>
+            <h3>頻率與急性藥物使用</h3>
+            <div class="numrow">
+              <div class="f"><label class="flabel" for="mhd">每月頭痛天數</label><div class="row" style="gap:6px"><input type="number" id="mhd" min="0" max="31"><span class="u">天／月</span></div></div>
+              <div class="f"><label class="flabel" for="mmd">其中符合偏頭痛特徵（或 triptan 有效）的天數</label><div class="row" style="gap:6px"><input type="number" id="mmd" min="0" max="31"><span class="u">天／月</span></div></div>
+              <div class="f"><label class="flabel" for="months">此頻率已持續</label><div class="row" style="gap:6px"><input type="number" id="months" min="0" max="240"><span class="u">個月</span></div></div>
+            </div>
+            <div class="numrow">
+              <div class="f"><label class="flabel" for="simple">單純止痛藥（acetaminophen、NSAID）使用天數</label><div class="row" style="gap:6px"><input type="number" id="simple" min="0" max="31"><span class="u">天／月</span></div></div>
+              <div class="f"><label class="flabel" for="spec">Triptan、ergot、鴉片類或複方止痛藥使用天數</label><div class="row" style="gap:6px"><input type="number" id="spec" min="0" max="31"><span class="u">天／月</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="card sticky" aria-live="polite">
+        <span class="eyebrow">ICHD-3 判定</span>
+        <div id="dx-out" style="margin-top:8px"></div>
+        <div class="row" style="margin-top:14px"><button class="btn primary" id="to-pv">帶入預防治療評估</button><button class="btn" id="dx-copy">複製診斷</button><button class="btn" id="dx-reset">清除</button></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ 2. Prevention ============ -->
+  <section class="pane" id="pv" role="tabpanel" aria-labelledby="tab-pv" hidden>
+    <div class="two">
+      <div class="stack">
+        <div class="card">
+          <h3>病人資料 <span class="sample" id="p-sample">示例個案</span></h3>
+          <div class="q" style="margin-top:0"><span class="flabel">診斷</span><div class="seg" id="p-type"><button data-v="em">陣發性偏頭痛</button><button data-v="cm">慢性偏頭痛</button></div></div>
+          <div class="numrow">
+            <div class="f"><label class="flabel" for="p-mhd">每月頭痛天數</label><div class="row" style="gap:6px"><input type="number" id="p-mhd" min="0" max="31"><span class="u">天</span></div></div>
+            <div class="f"><label class="flabel" for="p-mmd">每月偏頭痛天數</label><div class="row" style="gap:6px"><input type="number" id="p-mmd" min="0" max="31"><span class="u">天</span></div></div>
+            <div class="f"><label class="flabel" for="p-months">已持續</label><div class="row" style="gap:6px"><input type="number" id="p-months" min="0" max="240"><span class="u">個月</span></div></div>
+            <div class="f"><label class="flabel" for="p-4h">每次持續 ≥ 4 小時</label><select id="p-4h"><option value="1">是</option><option value="0">否</option></select></div>
+          </div>
+          <div class="q"><span class="flabel">失能程度（如 MIDAS：I–II 輕微、III 中度、IV 重度）</span><div class="seg" id="p-dis"><button data-v="0">無</button><button data-v="1">部分影響</button><button data-v="2">嚴重影響</button></div></div>
+          <div class="q"><span class="flabel">其他</span>
+            <label class="check"><input type="checkbox" id="p-2wk"><span>每週發作 ≥ 2 次</span></label>
+            <label class="check"><input type="checkbox" id="p-special"><span>特殊亞型：偏癱性偏頭痛、腦幹前兆（基底型）、前兆時間過長或偏頭痛性梗塞</span></label>
+            <label class="check"><input type="checkbox" id="p-life"><span>即使使用急性藥物，發作仍嚴重影響日常生活</span></label>
+          </div>
+        </div>
+        <div class="card">
+          <h3>已使用且無顯著療效、無法耐受或有禁忌的預防藥物</h3>
+          <p class="small muted" style="margin-bottom:6px">依台灣頭痛學會預防治療指引建議用藥。每種藥物應以足夠劑量使用至少數週（一般 8–12 週）再判定療效。</p>
+          <div class="fails" id="fails"></div>
+        </div>
+        <div class="card">
+          <h3>處方與申請條件</h3>
+          <div class="q2" style="margin-top:0">
+            <div class="q" style="margin:0"><label class="flabel" for="p-spec">處方醫師科別</label><select id="p-spec"><option value="neuro">神經內科</option><option value="ns">神經外科</option><option value="other">其他科別</option></select></div>
+            <div class="q" style="margin:0"><label class="flabel" for="p-app">申請類型</label><select id="p-app"><option value="new">首次申請</option><option value="cont">療程後續用</option><option value="re">停藥後再次申請</option></select></div>
+          </div>
+          <div class="q"><label class="check"><input type="checkbox" id="p-cert"><span>注射醫師已完成台灣神經學學會慢性偏頭痛診斷與 Botox PREEMPT 155U 標準注射法訓練認證</span></label>
+            <label class="check"><input type="checkbox" id="p-onbtx"><span>目前正在使用 Botox</span></label>
+            <label class="check"><input type="checkbox" id="p-oncgrp"><span>目前正在使用 CGRP 單株抗體</span></label></div>
+          <div id="cont-block" class="numrow">
+            <div class="f"><label class="flabel" for="p-base">治療前每月頭痛天數</label><div class="row" style="gap:6px"><input type="number" id="p-base" min="0" max="31"><span class="u">天</span></div></div>
+            <div class="f"><label class="flabel" for="p-now">目前每月頭痛天數</label><div class="row" style="gap:6px"><input type="number" id="p-now" min="0" max="31"><span class="u">天</span></div></div>
+          </div>
+          <div id="re-block" class="numrow">
+            <div class="f"><label class="flabel" for="p-gap">上次療程結束至今</label><div class="row" style="gap:6px"><input type="number" id="p-gap" min="0" max="120"><span class="u">個月</span></div></div>
+          </div>
+          <div class="q"><label class="flabel" for="p-start">預計開始日</label><input type="date" id="p-start" style="width:170px"></div>
+        </div>
+      </div>
+      <aside class="stack sticky" aria-live="polite">
+        <div id="elig" class="stack" style="gap:12px"></div>
+        <div class="card">
+          <h3>學會與指引建議</h3>
+          <div id="soc"></div>
+        </div>
+        <div class="row"><button class="btn primary" id="pv-copy">複製審查摘要</button><button class="btn" id="pv-reset">清除</button></div>
+      </aside>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3>健保療程時間表</h3>
+      <div class="grid2" id="timeline"></div>
+    </div>
+  </section>
+
+  <!-- ============ 3. Reference ============ -->
+  <section class="pane" id="ref" role="tabpanel" aria-labelledby="tab-ref" hidden>
+    <div class="stack">
+      <div class="grid2">
+        <div class="card">
+          <h3>急性治療（台灣頭痛學會 2017）</h3>
+          <ul class="plain">
+            <li><b>輕到中度發作</b>：口服 NSAID（ibuprofen、naproxen、diclofenac）為首選；aspirin、複方止痛藥為替代。</li>
+            <li><b>中到重度發作</b>：triptan（口服或鼻噴），在發作早期使用；triptan 合併 NSAID 效果優於單用。</li>
+            <li>Acetaminophen 適合輕中度發作，孕婦與兒童首選。</li>
+            <li>止吐劑可輔助處理噁心嘔吐；不建議使用鴉片類。</li>
+            <li>急性藥物每月使用以 <b>≤ 10 天</b>為限，避免藥物過度使用頭痛。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>預防治療（台灣頭痛學會 2017）</h3>
+          <ul class="plain">
+            <li><b>陣發性偏頭痛</b>：propranolol 為第一線；valproic acid、topiramate、flunarizine、amitriptyline 為第二線。</li>
+            <li><b>慢性偏頭痛</b>：建議 OnabotulinumtoxinA 與 topiramate；陣發性偏頭痛用藥可做為第二線。</li>
+            <li>「低劑量開始、緩慢調升」；療效需 3–4 週後才能評估；改善維持 6 個月後可逐漸減藥。</li>
+            <li>懷孕或哺乳期間不建議使用預防藥物。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <h3>常用預防藥物劑量</h3>
+        <div class="tablebox"><table>
+          <thead><tr><th>藥物</th><th>常用劑量</th><th>注意事項</th></tr></thead>
+          <tbody>
+            <tr><td>Propranolol</td><td class="mono">40–160 mg/日</td><td>氣喘、心搏過慢、憂鬱；有前兆者仍可使用</td></tr>
+            <tr><td>Metoprolol</td><td class="mono">50–200 mg/日</td><td>同 β 阻斷劑</td></tr>
+            <tr><td>Topiramate</td><td class="mono">25 mg 起，50–100 mg/日</td><td>感覺異常、認知遲鈍、腎結石、降低口服避孕藥效果；健保 &gt; 100 mg/日需於病歷記載理由</td></tr>
+            <tr><td>Valproic acid</td><td class="mono">500–1000 mg/日</td><td>懷孕禁用（致畸胎）；體重增加、掉髮、肝功能</td></tr>
+            <tr><td>Flunarizine</td><td class="mono">5–10 mg 睡前</td><td>嗜睡、體重增加、憂鬱、錐體外症狀（高齡）</td></tr>
+            <tr><td>Amitriptyline</td><td class="mono">10–75 mg 睡前</td><td>口乾、嗜睡、體重增加；合併失眠或憂鬱時適合</td></tr>
+            <tr><td>Galcanezumab</td><td class="mono">首劑 240 mg，之後每月 120 mg 皮下注射</td><td>注射部位反應、便秘</td></tr>
+            <tr><td>Fremanezumab</td><td class="mono">每月 225 mg 或每 3 個月 675 mg</td><td>注射部位反應</td></tr>
+            <tr><td>OnabotulinumtoxinA</td><td class="mono">155 U（PREEMPT 31 點），每 12 週</td><td>頸部無力、眼瞼下垂</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="card">
+        <h3>參考文獻</h3>
+        <ol class="refs">
+          <li>Headache Classification Committee of the International Headache Society. The International Classification of Headache Disorders, 3rd edition. <i>Cephalalgia</i> 2018;38:1–211.</li>
+          <li>衛生福利部中央健康保險署。藥品給付規定 第一節 神經系統藥物（115.8.21 更新）：1.3.2.3 Topiramate、1.6.2.1 Botox 第 7 項、1.6.5 Galcanezumab／fremanezumab。<a href="https://www.nhi.gov.tw/ch/cp-7593-ad2a9-3397-1.html" target="_blank" rel="noopener">nhi.gov.tw</a></li>
+          <li>Huang TC, Lai TH; Treatment Guideline Subcommittee of Taiwan Headache Society. Medical treatment guidelines for preventive treatment of migraine. <i>Acta Neurol Taiwan</i> 2017;26:33–53.</li>
+          <li>Hsu YC, Lin KC; Treatment Guideline Subcommittee of Taiwan Headache Society. Medical treatment guidelines for acute migraine attacks. <i>Acta Neurol Taiwan</i> 2017;26:78–96.</li>
+          <li>Ailani J, Burch RC, Robbins MS; Board of Directors of the American Headache Society. The American Headache Society consensus statement: update on integrating new migraine treatments into clinical practice. <i>Headache</i> 2021;61:1021–1039.</li>
+          <li>Charles AC, et al. Calcitonin gene-related peptide-targeting therapies are a first-line option for the prevention of migraine: an American Headache Society position statement update. <i>Headache</i> 2024;64:333–341. <a href="https://doi.org/10.1111/head.14692" target="_blank" rel="noopener">doi:10.1111/head.14692</a></li>
+          <li>Sacco S, et al. European Headache Federation guideline on the use of monoclonal antibodies targeting the calcitonin gene related peptide pathway for migraine prevention – 2022 update. <i>J Headache Pain</i> 2022;23:67. <a href="https://doi.org/10.1186/s10194-022-01431-x" target="_blank" rel="noopener">doi:10.1186/s10194-022-01431-x</a></li>
+          <li>Do TP, et al. Red and orange flags for secondary headaches in clinical practice: SNNOOP10 list. <i>Neurology</i> 2019;92:134–144.</li>
+        </ol>
+      </div>
+    </div>
+    <p class="disclaimer">本工具為臨床決策輔助與教學用途。ICHD-3 判定需結合完整病史與神經學檢查；健保給付以健保署最新公告及事前審查結果為準。</p>
+  </section>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),1800);}
+function copyText(txt){const ok=()=>toast('已複製到剪貼簿');const fb=()=>{const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){toast('無法自動複製，請手動選取');}ta.remove();};try{navigator.clipboard.writeText(txt).then(ok,fb);}catch(e){fb();}}
+function segBind(sel,cb){$$(sel+' button').forEach(b=>b.addEventListener('click',()=>{segSet(sel,b.dataset.v);cb(b.dataset.v);}));}
+function segSet(sel,v){$$(sel+' button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v===String(v)?'true':'false'));}
+function chips(el,list,set,cls,pref){$(el).innerHTML=list.map(([k,t])=>`<label class="chip${cls?' '+cls:''}"><input type="checkbox" id="${pref}-${k}" data-k="${k}"><span>${esc(t)}</span></label>`).join('');$$(el+' input').forEach(i=>i.addEventListener('change',()=>{i.checked?set().add(i.dataset.k):set().delete(i.dataset.k);}));}
+const iso=d=>{const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10);};
+const addM=(s,m)=>{const d=new Date(s+'T00:00:00');d.setMonth(d.getMonth()+m);return iso(d);};
+const addW=(s,w)=>{const d=new Date(s+'T00:00:00');d.setDate(d.getDate()+w*7);return iso(d);};
+const TABS=['dx','pv','ref'];
+function showTab(id){TABS.forEach(t=>{$('#'+t).hidden=t!==id;$('#tab-'+t).setAttribute('aria-selected',t===id?'true':'false');});try{localStorage.setItem('mig-tab',id);}catch(e){}}
+$$('.tab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.t)));
+
+/* ================= 1. ICHD-3 ================= */
+const RF=[['sys','發燒或全身症狀'],['neo','癌症病史'],['def','神經學缺損或意識改變'],['thunder','突發劇痛（1 分鐘內達高峰）'],['old','50 歲後新發生'],['change','型態改變或新近發生且漸進惡化'],['pos','姿勢相關（站立或平躺加劇）'],['valsalva','咳嗽、用力或運動誘發'],['papill','視乳突水腫'],['preg','懷孕或產後'],['eye','眼睛紅痛合併視力模糊'],['trauma','頭部外傷後'],['immune','免疫功能低下（HIV、免疫抑制劑）']];
+const ASSOC=[['nausea','噁心'],['vomit','嘔吐'],['photo','畏光'],['phono','怕吵']];
+const AURA_T=[['vis','視覺'],['sens','感覺'],['lang','語言'],['motor','運動（肢體無力）'],['bs','腦幹'],['ret','視網膜（單眼）']];
+const AURA_F=[['spread','至少一個前兆症狀逐漸擴散 ≥ 5 分鐘'],['succ','兩個以上症狀相繼出現'],['each','每個前兆症狀持續 5–60 分鐘'],['unil','至少一個前兆症狀為單側'],['pos','至少一個為正性症狀（閃光、刺麻）'],['hd60','前兆伴隨頭痛或 60 分鐘內出現頭痛']];
+const AUTO=[['conj','結膜充血或流淚'],['nasal','鼻塞或流鼻水'],['lid','眼瞼水腫'],['sweat','前額或臉部出汗'],['mio','瞳孔縮小或眼瞼下垂'],['rest','躁動不安、無法靜躺']];
+const D0=()=>({rf:new Set(),n:10,dur:'e',loc:'uni',qual:'puls',sev:3,aggr:1,assoc:new Set(['nausea','photo','phono']),aura:false,auraT:new Set(),auraF:new Set(),auto:new Set(),orb:false,cfreq:false,mhd:18,mmd:10,months:6,simple:4,spec:12});
+let D=D0();
+chips('#rf',RF,()=>D.rf,'bad','rf');chips('#assoc',ASSOC,()=>D.assoc,'','as');chips('#aura-type',AURA_T,()=>D.auraT,'','at');chips('#auto',AUTO,()=>D.auto,'','au');
+$('#aura-feat').innerHTML=AURA_F.map(([k,t])=>`<label class="check"><input type="checkbox" id="af-${k}" data-k="${k}"><span>${esc(t)}</span></label>`).join('');
+$$('#aura-feat input').forEach(i=>i.addEventListener('change',()=>{i.checked?D.auraF.add(i.dataset.k):D.auraF.delete(i.dataset.k);}));
+function dTouch(){$('#d-sample').hidden=true;renderDx();}
+$$('#dx input[type=checkbox]').forEach(i=>i.addEventListener('change',()=>{if(i.id==='aura')D.aura=i.checked;if(i.id==='cl-orb')D.orb=i.checked;if(i.id==='cl-freq')D.cfreq=i.checked;dTouch();}));
+segBind('#n-att',v=>{D.n=+v;dTouch();});segBind('#loc',v=>{D.loc=v;dTouch();});segBind('#qual',v=>{D.qual=v;dTouch();});segBind('#sev',v=>{D.sev=+v;dTouch();});segBind('#aggr',v=>{D.aggr=+v;dTouch();});
+$('#dur').addEventListener('change',e=>{D.dur=e.target.value;dTouch();});
+['mhd','mmd','months','simple','spec'].forEach(k=>$('#'+k).addEventListener('input',e=>{D[k]=e.target.value===''?0:+e.target.value;dTouch();}));
+function fillDx(){
+  [['#rf',D.rf],['#assoc',D.assoc],['#aura-type',D.auraT],['#auto',D.auto],['#aura-feat',D.auraF]].forEach(([el,s])=>$$(el+' input').forEach(i=>i.checked=s.has(i.dataset.k)));
+  $('#aura').checked=D.aura;$('#cl-orb').checked=D.orb;$('#cl-freq').checked=D.cfreq;
+  segSet('#n-att',D.n);segSet('#loc',D.loc);segSet('#qual',D.qual);segSet('#sev',D.sev);segSet('#aggr',D.aggr);$('#dur').value=D.dur;
+  ['mhd','mmd','months','simple','spec'].forEach(k=>$('#'+k).value=D[k]);
+}
+$('#dx-reset').addEventListener('click',()=>{D={rf:new Set(),n:1,dur:'e',loc:'uni',qual:'puls',sev:2,aggr:0,assoc:new Set(),aura:false,auraT:new Set(),auraF:new Set(),auto:new Set(),orb:false,cfreq:false,mhd:0,mmd:0,months:0,simple:0,spec:0};$('#d-sample').hidden=true;fillDx();renderDx();});
+
+function ichd(){
+  const out=[],A=D.assoc,durMig=D.dur==='e',durTTH=['c','d','e','f'].includes(D.dur),durCl=['b','c'].includes(D.dur);
+  const c4=[D.loc==='uni',D.qual==='puls',D.sev>=2,D.aggr===1],n4=c4.filter(Boolean).length;
+  const migD=A.has('nausea')||A.has('vomit')||(A.has('photo')&&A.has('phono'));
+  const secondary=D.rf.size>0;
+  /* 1.1 migraine without aura */
+  const m11=[['A',D.n>=5,'≥ 5 次符合 B–D 的發作'],['B',durMig,'持續 4–72 小時'],['C',n4>=2,`單側、搏動性、中重度、活動加劇中 ≥ 2 項（${n4} 項）`],['D',migD,'噁心或嘔吐，或同時畏光與怕吵'],['E',!secondary,'無其他更合適的診斷']];
+  /* 1.2 migraine with aura */
+  const nf=D.auraF.size,typical=[...D.auraT].every(k=>['vis','sens','lang'].includes(k));
+  const m12=[['A',D.n>=2,'≥ 2 次符合 B、C 的發作'],['B',D.aura&&D.auraT.size>0,'≥ 1 種完全可逆的前兆症狀'],['C',nf>=3,`前兆特徵 ≥ 3 項（${nf} 項）`],['D',!secondary,'無其他更合適的診斷']];
+  /* 1.3 chronic migraine */
+  const migBase=(m11.slice(1,4).every(x=>x[1]))||(m12[1][1]&&m12[2][1]);
+  const m13=[['A',D.mhd>=15&&D.months>=3,`頭痛 ≥ 15 天/月且 > 3 個月（${D.mhd} 天、${D.months} 個月）`],['B',migBase&&D.n>=5,'曾有 ≥ 5 次符合偏頭痛準則的發作'],['C',D.mmd>=8,`≥ 8 天/月具偏頭痛特徵或 triptan 有效（${D.mmd} 天）`],['D',!secondary,'無其他更合適的診斷']];
+  /* 2 TTH */
+  const t4=[D.loc==='bi',D.qual==='press',D.sev<=2,D.aggr===0],nt=t4.filter(Boolean).length;
+  const tD=!A.has('vomit')&&!A.has('nausea')&&!(A.has('photo')&&A.has('phono'));
+  const tthSub=D.mhd>=15?['2.3','慢性緊縮型頭痛']:D.mhd>=1?['2.2','頻發陣發性緊縮型頭痛']:['2.1','偶發陣發性緊縮型頭痛'];
+  const t2=[['A',D.n>=10||D.mhd>=15,'≥ 10 次發作（慢性型：≥ 15 天/月）'],['B',durTTH,'持續 30 分鐘至 7 天'],['C',nt>=2,`雙側、壓迫緊箍、輕中度、活動不加劇中 ≥ 2 項（${nt} 項）`],['D',tD,'無噁心嘔吐，畏光或怕吵不超過一項'],['E',!secondary,'無其他更合適的診斷']];
+  /* 3.1 cluster */
+  const c31=[['A',D.n>=5,'≥ 5 次符合 B–D 的發作'],['B',D.sev>=3&&D.loc==='uni'&&D.orb&&durCl,'重度單側眼眶／顳部疼痛，持續 15–180 分鐘'],['C',D.auto.size>0,'同側自律神經症狀或躁動不安'],['D',D.cfreq,'頻率隔日 1 次至每日 8 次'],['E',!secondary,'無其他更合適的診斷']];
+  /* 8.2 MOH */
+  const moh=D.mhd>=15&&D.months>=3&&(D.simple>=15||D.spec>=10||D.simple+D.spec>=10&&D.spec>0&&D.simple>0);
+  const m82=[['A',D.mhd>=15,'原有頭痛疾患者，頭痛 ≥ 15 天/月'],['B',(D.simple>=15||D.spec>=10||(D.simple>0&&D.spec>0&&D.simple+D.spec>=10))&&D.months>=3,`規律過度使用 > 3 個月（單純止痛藥 ${D.simple} 天、triptan／複方等 ${D.spec} 天）`],['C',!secondary,'無其他更合適的診斷']];
+  const ok=c=>c.every(x=>x[1]),miss=c=>c.filter(x=>!x[1]).length;
+  const res=[];
+  if(ok(m13))res.push({code:'1.3',name:'慢性偏頭痛',crit:m13,lv:'go'});
+  if(ok(c31))res.push({code:'3.1',name:'叢發性頭痛',crit:c31,lv:'go'});
+  if(ok(m12)){const sub=D.auraT.has('motor')?['1.2.3','偏癱性偏頭痛']:D.auraT.has('bs')?['1.2.2','腦幹前兆偏頭痛']:D.auraT.has('ret')?['1.2.4','視網膜偏頭痛']:['1.2.1','典型前兆偏頭痛'];res.push({code:sub[0],name:sub[1],crit:m12,lv:'go'});}
+  if(ok(m11)&&!ok(m13))res.push({code:'1.1',name:'無前兆偏頭痛',crit:m11,lv:'go'});
+  if(ok(t2)&&!res.length)res.push({code:tthSub[0],name:tthSub[1],crit:t2,lv:'go'});
+  if(ok(m82))res.push({code:'8.2',name:'藥物過度使用頭痛',crit:m82,lv:'warn'});
+  if(!res.filter(r=>r.code!=='8.2').length&&!secondary){
+    if(miss(m11)===1&&!ok(t2))res.unshift({code:'1.5.1',name:'可能無前兆偏頭痛',crit:m11,lv:'warn'});
+    else if(D.aura&&miss(m12)===1)res.unshift({code:'1.5.2',name:'可能前兆偏頭痛',crit:m12,lv:'warn'});
+    else if(miss(c31)===1)res.unshift({code:'3.5',name:'可能叢發性頭痛',crit:c31,lv:'warn'});
+    else if(miss(t2)===1)res.unshift({code:'2.4',name:'可能緊縮型頭痛',crit:t2,lv:'warn'});
+  }
+  return{res,secondary,all:{m11,m12,m13,t2,c31,m82},typical};
+}
+function critHTML(c){return`<div class="crit">${c.map(([L,ok,t])=>`<div class="${ok?'y':'n'}"><span class="L">${L}</span><i>${ok?'✓':'✗'}</i><span>${esc(t)}</span></div>`).join('')}</div>`;}
+function renderDx(){
+  fillDx();
+  $('#aura-block').hidden=!D.aura;
+  const r=ichd();let h='';
+  if(r.secondary)h+=`<div class="alert stop"><strong>有危險徵象，先排除次發性頭痛</strong><span class="small">${RF.filter(x=>D.rf.has(x[0])).map(x=>x[1]).join('、')}。建議依臨床安排腦部影像、血液檢查或腰椎穿刺。</span></div>`;
+  if(r.res.length)h+=r.res.map(d=>`<div class="dx"><div class="dx-h"><span class="code">ICHD-3 ${d.code}</span><b style="color:var(--${d.lv==='go'?'ink':'warn'})">${esc(d.name)}</b></div>${critHTML(d.crit)}</div>`).join('');
+  else if(!r.secondary)h+='<div class="alert warn"><strong>目前資料不符合常見原發性頭痛準則</strong><span class="small">請補充發作型態與伴隨症狀，或考慮其他頭痛類型。</span></div>';
+  const has=c=>r.res.some(x=>x.code.startsWith(c));
+  const tips=[];
+  if(has('1.3')&&has('8.2'))tips.push('ICHD-3 規定慢性偏頭痛與藥物過度使用頭痛同時成立時，兩個診斷都要記錄；停用過度使用藥物後需重新評估。');
+  if(has('8.2'))tips.push('衛教限制急性藥物每月 ≤ 10 天；開始預防治療。');
+  if(has('1.2.3')||has('1.2.2'))tips.push('偏癱性或腦幹前兆偏頭痛：避免 triptan 與 ergot。');
+  if(has('3.1'))tips.push('急性期：100% 氧氣 12–15 L/min 或皮下／鼻噴 sumatriptan；預防：verapamil，短期類固醇過渡。');
+  if(has('1.')&&!has('1.5')&&(D.mmd>=4||D.mhd>=4))tips.push(`每月偏頭痛 ${D.mmd} 天，可評估預防治療（見第 2 分頁）。`);
+  if(tips.length)h+=`<div class="more"><span class="flabel">處置提示</span><ul class="plain">${tips.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>`;
+  $('#dx-out').innerHTML=h;
+  window.__dx=r;
+}
+$('#dx-copy').addEventListener('click',()=>{const r=window.__dx;copyText(`【ICHD-3 頭痛診斷】${r.secondary?'有危險徵象，需排除次發性頭痛；':''}${r.res.map(d=>`${d.code} ${d.name}`).join('；')||'未符合常見原發性頭痛準則'}\n頭痛 ${D.mhd} 天/月（偏頭痛特徵 ${D.mmd} 天），持續 ${D.months} 個月；單純止痛藥 ${D.simple} 天/月、triptan／複方 ${D.spec} 天/月`);});
+$('#to-pv').addEventListener('click',()=>{const r=window.__dx;P.mhd=D.mhd;P.mmd=D.mmd;P.months=D.months;P.type=r.res.some(x=>x.code==='1.3')?'cm':'em';P.h4=D.dur==='e'||D.dur==='f'||D.dur==='g'?1:0;renderPv();showTab('pv');toast('已帶入頭痛天數與診斷');});
+
+/* ================= 2. Prevention ================= */
+const FAILS=[['prop','Propranolol 或 metoprolol（β 阻斷劑）'],['topi','Topiramate'],['vpa','Valproic acid'],['flun','Flunarizine'],['ami','Amitriptyline'],['venla','Venlafaxine 等其他建議用藥']];
+const P0=()=>({type:'cm',mhd:18,mmd:10,months:6,h4:1,dis:2,wk2:true,special:false,life:true,fails:new Set(['prop','topi','flun']),spec:'neuro',app:'new',cert:true,onbtx:false,oncgrp:false,base:18,now:8,gap:0,start:iso(new Date())});
+let P=P0();
+$('#fails').innerHTML=FAILS.map(([k,t])=>`<label class="check"><input type="checkbox" id="fa-${k}" data-k="${k}"><span>${esc(t)}</span></label>`).join('');
+function pTouch(){$('#p-sample').hidden=true;renderPv();}
+$$('#fails input').forEach(i=>i.addEventListener('change',()=>{i.checked?P.fails.add(i.dataset.k):P.fails.delete(i.dataset.k);pTouch();}));
+segBind('#p-type',v=>{P.type=v;pTouch();});segBind('#p-dis',v=>{P.dis=+v;pTouch();});
+[['p-mhd','mhd'],['p-mmd','mmd'],['p-months','months'],['p-base','base'],['p-now','now'],['p-gap','gap']].forEach(([id,k])=>$('#'+id).addEventListener('input',e=>{P[k]=e.target.value===''?0:+e.target.value;pTouch();}));
+[['p-2wk','wk2'],['p-special','special'],['p-life','life'],['p-cert','cert'],['p-onbtx','onbtx'],['p-oncgrp','oncgrp']].forEach(([id,k])=>$('#'+id).addEventListener('change',e=>{P[k]=e.target.checked;pTouch();}));
+$('#p-4h').addEventListener('change',e=>{P.h4=+e.target.value;pTouch();});
+$('#p-spec').addEventListener('change',e=>{P.spec=e.target.value;pTouch();});
+$('#p-app').addEventListener('change',e=>{P.app=e.target.value;pTouch();});
+$('#p-start').addEventListener('change',e=>{P.start=e.target.value||iso(new Date());pTouch();});
+function fillPv(){
+  segSet('#p-type',P.type);segSet('#p-dis',P.dis);
+  $('#p-mhd').value=P.mhd;$('#p-mmd').value=P.mmd;$('#p-months').value=P.months;$('#p-4h').value=P.h4;$('#p-base').value=P.base;$('#p-now').value=P.now;$('#p-gap').value=P.gap;
+  $('#p-2wk').checked=P.wk2;$('#p-special').checked=P.special;$('#p-life').checked=P.life;$('#p-cert').checked=P.cert;$('#p-onbtx').checked=P.onbtx;$('#p-oncgrp').checked=P.oncgrp;
+  $('#p-spec').value=P.spec;$('#p-app').value=P.app;$('#p-start').value=P.start;
+  $$('#fails input').forEach(i=>i.checked=P.fails.has(i.dataset.k));
+  $('#cont-block').hidden=P.app!=='cont';$('#re-block').hidden=P.app!=='re';
+}
+$('#pv-reset').addEventListener('click',()=>{P={type:'em',mhd:0,mmd:0,months:0,h4:1,dis:0,wk2:false,special:false,life:false,fails:new Set(),spec:'neuro',app:'new',cert:false,onbtx:false,oncgrp:false,base:0,now:0,gap:0,start:iso(new Date())};$('#p-sample').hidden=true;renderPv();});
+
+function evalPv(){
+  const cmDx=P.mhd>=15&&P.months>=3&&P.h4===1&&P.mmd>=8;
+  const nf=P.fails.size,topi=P.fails.has('topi'),neuro=P.spec!=='other';
+  const red=P.base>0?Math.round((1-P.now/P.base)*100):0;
+  const common=[
+    [cmDx,`慢性偏頭痛：≥ 3 個月、每月 ≥ 15 天、每次 ≥ 4 小時，偏頭痛 ≥ 8 天（${P.mhd} 天、${P.mmd} 天、${P.months} 個月）`],
+    [nf>=3&&topi,`≥ 3 種預防藥物無效或無法耐受，且包含 topiramate（${nf} 種${topi?'':'，缺 topiramate'}）`],
+    [neuro,'神經內科或神經外科專科醫師診斷'+(neuro?'':'（目前為其他科別）')]
+  ];
+  const appRows=[];
+  if(P.app==='cont')appRows.push([red>=50,`療程後每月頭痛天數較治療前降低 ≥ 50%（${P.base} → ${P.now} 天，降低 ${red}%）`]);
+  if(P.app==='re')appRows.push([P.gap>=6,`療程完畢已滿半年（${P.gap} 個月）`],[cmDx,'病況再度符合慢性偏頭痛，病歷記錄治療後頭痛天數']);
+  const btx=[...common,[P.cert,'注射醫師完成台灣神經學學會 PREEMPT 訓練認證'],[!P.oncgrp,'未併用 CGRP 單株抗體'],...appRows,['na','事前審查核准後使用']];
+  const cgrp=[...common,[!P.onbtx,'未併用 Botox'],...appRows,['na','事前審查核准後使用；不得攜回注射；兩種單株抗體擇一且不得互換']];
+  const topiCond=P.life||P.special||P.wk2;
+  const others=P.fails.size-(topi?1:0);
+  const tp=[[true,'符合國際頭痛協會偏頭痛診斷標準'],[topiCond,'嚴重影響日常生活、特殊亞型，或每週發作 ≥ 2 次（任一）'],[others>=1,`現有預防藥物療效不佳、無法耐受或有禁忌（${others} 種）`],['na','每日劑量 > 100 mg 需於病歷記載理由']];
+  const pass=a=>a.every(x=>x[0]===true||x[0]==='na');
+  return{cmDx,btx,cgrp,tp,okB:pass(btx),okC:pass(cgrp),okT:pass(tp),nf,topi,red};
+}
+function gateHTML(a){return`<div class="gate">${a.map(([ok,t])=>`<div class="${ok==='na'?'na':ok?'y':'n'}"><i>${ok==='na'?'•':ok?'✓':'✗'}</i><span>${esc(t)}</span></div>`).join('')}</div>`;}
+function card(title,rule,ok,rows,extra){return`<div class="elig ${ok?'ok':'no'}"><div class="elig-h"><h3>${title}</h3><span class="pill ${ok?'go':'stop'}">${ok?'符合健保給付':'不符合'}</span></div><div class="rule">${rule}</div>${gateHTML(rows)}${extra||''}</div>`;}
+function renderPv(){
+  fillPv();
+  const e=evalPv();
+  const typeWarn=P.type==='em'&&!e.cmDx?'':P.type==='em'&&e.cmDx?'<p class="small" style="margin-top:6px;color:var(--warn)">頭痛天數已符合慢性偏頭痛，請確認診斷。</p>':'';
+  $('#elig').innerHTML=
+    card('Botox（OnabotulinumtoxinA）','健保藥品給付規定 1.6.2.1 第 7 項',e.okB,e.btx,'<p class="small muted" style="margin-top:6px">每次最高 155 單位，每年最多 4 個療程；對每月 ≤ 14 天的陣發性偏頭痛尚無療效證據。</p>')+
+    card('CGRP 單株抗體（galcanezumab、fremanezumab）','健保藥品給付規定 1.6.5',e.okC,e.cgrp,'<p class="small muted" style="margin-top:6px">Erenumab、eptinezumab 與 gepant 類在第一節沒有給付規定。</p>')+
+    card('Topiramate（偏頭痛預防）','健保藥品給付規定 1.3.2.3 第 2 項',e.okT,e.tp,typeWarn);
+  /* society */
+  const d=P.dis,m=P.mhd;
+  let prev,pc;
+  if(m>=6||(m>=4&&d>=1)||(m>=3&&d>=2)){prev='應提供預防治療';pc='go';}
+  else if(m>=4||(m>=3&&d>=1)||(m>=2&&d>=2)){prev='可考慮預防治療';pc='warn';}
+  else{prev='目前不需預防治療';pc='info';}
+  const thsFirst=P.type==='cm'?'Botox 與 topiramate':'Propranolol（第一線）；valproic acid、topiramate、flunarizine、amitriptyline（第二線）';
+  $('#soc').innerHTML=`
+    <div class="gate">
+      <div class="y"><i>•</i><span><b>預防治療適應症（AHS 2021）</b>：<span class="pill ${pc}">${prev}</span><br><span class="small muted">每月頭痛 ≥ 6 天，或 ≥ 4 天且部分失能，或 ≥ 3 天且嚴重失能時應提供。</span></span></div>
+      <div class="y"><i>•</i><span><b>台灣頭痛學會 2017</b>：${P.type==='cm'?'慢性':'陣發性'}偏頭痛建議 ${thsFirst}。</span></div>
+      <div class="y"><i>•</i><span><b>AHS 2024 立場聲明</b>：CGRP 標靶治療（單株抗體與 gepant）可做為第一線預防選項，<b>不需先有其他預防藥物失敗</b>。</span></div>
+      <div class="y"><i>•</i><span><b>EHF 2022</b>：CGRP 單株抗體可與其他預防藥物並列為選項；首次療效評估在連續使用 ≥ 3 個月後。</span></div>
+    </div>
+    ${pc!=='info'&&!e.okC?`<p class="small" style="margin-top:8px">此病人依學會建議可考慮 CGRP 標靶治療，但不符合健保給付條件，需自費。</p>`:''}`;
+  /* timeline */
+  const s=P.start;
+  $('#timeline').innerHTML=`
+    <div><span class="flabel">CGRP 單株抗體</span><div class="tl">
+      <div><span class="d">${s}</span><span>首次申請 3 個月療程（galcanezumab 首劑 240 mg，共 4 支；fremanezumab 共 3 支）</span></div>
+      <div><span class="d">${addM(s,3)}</span><span>評估每月頭痛天數，需較治療前降低 ≥ 50% 才能續用</span></div>
+      <div><span class="d">${addM(s,3)}</span><span>接續申請 3 個月療程，每月施打一次</span></div>
+      <div><span class="d">${addM(s,6)}</span><span>療程完畢，半年內不得再次申請</span></div>
+      <div><span class="d">${addM(s,12)}</span><span>最早可再次申請（需再度符合慢性偏頭痛，病歷記錄頭痛天數）</span></div>
+    </div></div>
+    <div><span class="flabel">Botox</span><div class="tl">
+      <div><span class="d">${s}</span><span>首次申請給付 2 個療程：第 1 次注射 155 U</span></div>
+      <div><span class="d">${addW(s,12)}</span><span>第 2 次注射</span></div>
+      <div><span class="d">${addW(s,24)}</span><span>評估每月頭痛天數，需較治療前降低 ≥ 50% 才能續用</span></div>
+      <div><span class="d">${addW(s,24)}</span><span>接續申請一年療程，分 4 次注射（約每 12 週）</span></div>
+      <div><span class="d">${addW(s,72)}</span><span>一年療程完畢，半年內不得再次申請</span></div>
+      <div><span class="d">${addM(addW(s,72),6)}</span><span>最早可再次申請</span></div>
+    </div></div>`;
+  window.__pv=e;
+}
+$('#pv-copy').addEventListener('click',()=>{const e=window.__pv,L=[];
+  L.push(`【偏頭痛預防治療給付評估】${P.type==='cm'?'慢性':'陣發性'}偏頭痛；每月頭痛 ${P.mhd} 天、偏頭痛 ${P.mmd} 天，持續 ${P.months} 個月`);
+  L.push(`已失敗預防藥物：${FAILS.filter(f=>P.fails.has(f[0])).map(f=>f[1]).join('、')||'無'}`);
+  L.push(`Botox（1.6.2.1-7）：${e.okB?'符合':'不符合'}；CGRP 單株抗體（1.6.5）：${e.okC?'符合':'不符合'}；Topiramate（1.3.2.3）：${e.okT?'符合':'不符合'}`);
+  const miss=[...e.btx,...e.cgrp].filter(x=>x[0]===false).map(x=>x[1]);if(miss.length)L.push('未符合：'+[...new Set(miss)].join('；'));
+  if(P.app==='cont')L.push(`療效：${P.base} → ${P.now} 天（降低 ${e.red}%）`);
+  L.push('依據：健保藥品給付規定第一節（115.8.21）、台灣頭痛學會 2017、AHS 2021／2024、EHF 2022');copyText(L.join('\n'));});
+
+/* ---------- init ---------- */
+renderDx();renderPv();
+let start='dx';const h=(location.hash||'').slice(1);
+if(TABS.includes(h))start=h;else{try{const s=localStorage.getItem('mig-tab');if(TABS.includes(s))start=s;}catch(e){}}
+showTab(start);
+})();
+</script>
+</body>
+</html>

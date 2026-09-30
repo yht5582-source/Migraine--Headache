@@ -405,7 +405,7 @@ function ichd(){
   if(ok(m13))res.push({code:'1.3',name:'慢性偏頭痛',crit:m13,lv:'go'});
   if(ok(c31))res.push({code:'3.1',name:'叢發性頭痛',crit:c31,lv:'go'});
   if(ok(m12)){const sub=D.auraT.has('motor')?['1.2.3','偏癱性偏頭痛']:D.auraT.has('bs')?['1.2.2','腦幹前兆偏頭痛']:D.auraT.has('ret')?['1.2.4','視網膜偏頭痛']:['1.2.1','典型前兆偏頭痛'];res.push({code:sub[0],name:sub[1],crit:m12,lv:'go'});}
-  if(ok(m11)&&!ok(m13))res.push({code:'1.1',name:'無前兆偏頭痛',crit:m11,lv:'go'});
+  if(ok(m11)&&!ok(m13)&&!D.aura)res.push({code:'1.1',name:'無前兆偏頭痛',crit:m11,lv:'go'});
   if(ok(t2)&&!res.length)res.push({code:tthSub[0],name:tthSub[1],crit:t2,lv:'go'});
   if(ok(m82))res.push({code:'8.2',name:'藥物過度使用頭痛',crit:m82,lv:'warn'});
   if(!res.filter(r=>r.code!=='8.2').length&&!secondary){

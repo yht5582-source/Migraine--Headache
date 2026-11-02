@@ -99,6 +99,7 @@ const tags=[...html.matchAll(/<b>([A-Z0-9]+)<\/b> /g)].map(m=>m[1]);
 [...T.MAP.left,...T.MAP.right].forEach(([t,l])=>{ok(l.length>=2,'map branch '+t);l.forEach(([x,s])=>{ok(x&&s,'map leaf source '+x);ok(tags.includes(s),'map legend has '+s);});});
 
 ok(html.includes('Negro 2017 回顧則把 β 阻斷劑列為孕期第一線')&&!html.includes('<li>懷孕或哺乳期間不建議使用預防藥物。</li>'),'pregnancy line states both sources');
+ok(html.includes('工具假設：條文只規定續用需降低 ≥ 50%')&&!html.includes('以首次申請紀錄為準'),'continuation row is labelled as a tool assumption');
 ['cases','quiz','map'].forEach(t=>ok(html.includes(`id="tab-${t}"`)&&html.includes(`id="${t}"`),'pane '+t));
 console.log(`${pass} passed, ${fail} failed`);
 process.exit(fail?1:0);

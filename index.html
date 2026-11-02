@@ -577,7 +577,7 @@ function evalPv(){
   const nf=P.fails.size,topi=P.fails.has('topi'),neuro=P.spec!=='other';
   const red=P.base>0?Math.round((1-P.now/P.base)*100):0;
   const common=[
-    P.app==='cont'?[P.base>=15,`治療前符合慢性偏頭痛：每月 ≥ 15 天（治療前 ${P.base} 天），其餘條件以首次申請紀錄為準`]:[cmDx,`慢性偏頭痛：≥ 3 個月、每月 ≥ 15 天、每次 ≥ 4 小時，偏頭痛 ≥ 8 天（${P.mhd} 天、${P.mmd} 天、${P.months} 個月）`],
+    P.app==='cont'?[P.base>=15,`治療前每月 ≥ 15 天（治療前 ${P.base} 天）。工具假設：條文只規定續用需降低 ≥ 50%，此列假設首次申請已符合慢性偏頭痛的其餘條件`]:[cmDx,`慢性偏頭痛：≥ 3 個月、每月 ≥ 15 天、每次 ≥ 4 小時，偏頭痛 ≥ 8 天（${P.mhd} 天、${P.mmd} 天、${P.months} 個月）`],
     [nf>=3&&topi,`≥ 3 種預防藥物無效或無法耐受，且包含 topiramate（${nf} 種${topi?'':'，缺 topiramate'}）`],
     [neuro,'神經內科或神經外科專科醫師診斷'+(neuro?'':'（目前為其他科別）')]
   ];

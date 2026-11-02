@@ -25,6 +25,8 @@ eq(codes({...mig,n:5}),['1.1'],'1.1 at 5 attacks');
 ok(!codes({...mig,n:2}).includes('1.1'),'1.1 not at 2-4 attacks');
 const cm={...mig,mhd:15,mmd:8,months:4};
 eq(codes(cm),['1.3'],'1.3 at 15/8 days');
+ok(!codes({...cm,months:3}).includes('1.3'),'1.3 needs more than 3 months');
+ok(codes({...cm,months:3,spec:10}).length===0||!codes({...cm,months:3,spec:10}).includes('8.2'),'8.2 needs more than 3 months');
 ok(!codes({...cm,mmd:7}).includes('1.3'),'1.3 needs 8 migraine days');
 ok(!codes({...cm,mhd:14}).includes('1.3'),'1.3 needs 15 headache days');
 ok(codes({...cm,spec:10}).includes('8.2'),'8.2 at triptan 10 days');
@@ -47,6 +49,11 @@ ok(!pv({...nhi,onbtx:true}).okC&&!pv({...nhi,oncgrp:true}).okB,'no combination')
 const cont={...nhi,app:'cont',base:20,now:10};
 ok(pv(cont).okC,'continuation at exactly 50%');
 ok(!pv({...cont,now:11}).okC,'continuation fails at 45%');
+ok(pv({...cont,mhd:8,mmd:4,now:8}).okC,'continuation judged on baseline, not current days');
+ok(pv({...cont,base:15,now:7,mhd:7,mmd:3}).okC,'continuation at baseline 15');
+ok(!pv({...cont,base:14,now:5,mhd:5}).okC,'continuation needs baseline >=15');
+ok(!pv({...nhi,mhd:8}).okC,'first application still judged on current days');
+ok(!pv({...nhi,app:'re',gap:6,mhd:8}).okC,'re-application still judged on current days');
 
 // Cases
 eq(T.CASES.length,6,'6 cases');
@@ -67,7 +74,7 @@ T.CASES.forEach(c=>{
 // Case 6 says 10 days passes and that entering current days fails the CM row.
 const c6=T.CASES.find(c=>c.id==='c6');
 ok(pv({...c6.pv,now:10,oncgrp:true}).okC,'case 6: 10 days passes');
-ok(!pv({...c6.pv,mhd:12,now:10}).cmDx,'case 6: current days in the CM field fails');
+ok(c6.pv.mhd<15,'case 6 uses current days in the patient fields');
 
 // Quiz
 eq(T.QUIZ.length,20,'20 questions');
@@ -91,6 +98,7 @@ ok(T.MAP.left.length>=5&&T.MAP.right.length>=5,'map has both sides');
 const tags=[...html.matchAll(/<b>([A-Z0-9]+)<\/b> /g)].map(m=>m[1]);
 [...T.MAP.left,...T.MAP.right].forEach(([t,l])=>{ok(l.length>=2,'map branch '+t);l.forEach(([x,s])=>{ok(x&&s,'map leaf source '+x);ok(tags.includes(s),'map legend has '+s);});});
 
+ok(html.includes('Negro 2017 回顧則把 β 阻斷劑列為孕期第一線')&&!html.includes('<li>懷孕或哺乳期間不建議使用預防藥物。</li>'),'pregnancy line states both sources');
 ['cases','quiz','map'].forEach(t=>ok(html.includes(`id="tab-${t}"`)&&html.includes(`id="${t}"`),'pane '+t));
 console.log(`${pass} passed, ${fail} failed`);
 process.exit(fail?1:0);

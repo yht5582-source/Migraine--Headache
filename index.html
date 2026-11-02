@@ -315,6 +315,7 @@ th{font-weight:500;color:var(--ink-2);font-size:12.5px;white-space:nowrap}
           <div id="cont-block" class="numrow">
             <div class="f"><label class="flabel" for="p-base">治療前每月頭痛天數</label><div class="row" style="gap:6px"><input type="number" id="p-base" min="0" max="31"><span class="u">天</span></div></div>
             <div class="f"><label class="flabel" for="p-now">目前每月頭痛天數</label><div class="row" style="gap:6px"><input type="number" id="p-now" min="0" max="31"><span class="u">天</span></div></div>
+            <p class="small muted" style="flex-basis:100%">續用時以這裡的治療前天數判定慢性偏頭痛，上方病人資料填目前狀況即可。</p>
           </div>
           <div id="re-block" class="numrow">
             <div class="f"><label class="flabel" for="p-gap">上次療程結束至今</label><div class="row" style="gap:6px"><input type="number" id="p-gap" min="0" max="120"><span class="u">個月</span></div></div>
@@ -357,7 +358,7 @@ th{font-weight:500;color:var(--ink-2);font-size:12.5px;white-space:nowrap}
             <li><b>陣發性偏頭痛</b>：propranolol 為第一線；valproic acid、topiramate、flunarizine、amitriptyline 為第二線。</li>
             <li><b>慢性偏頭痛</b>：建議 OnabotulinumtoxinA 與 topiramate；陣發性偏頭痛用藥可做為第二線。</li>
             <li>「低劑量開始、緩慢調升」；療效需 3–4 週後才能評估；改善維持 6 個月後可逐漸減藥。</li>
-            <li>懷孕或哺乳期間不建議使用預防藥物。</li>
+            <li><b>懷孕或哺乳</b>：台灣頭痛學會 2017 不建議使用預防藥物。Negro 2017 回顧則把 β 阻斷劑列為孕期第一線，可行時於第三孕期減藥並監測新生兒；amitriptyline 在 β 阻斷劑無效或禁忌時為第二線；valproate、topiramate 任何孕期都應避免。兩者不一致，需個別討論。</li>
           </ul>
         </div>
       </div>
@@ -491,7 +492,7 @@ function ichd(){
   const m12=[['A',D.n>=2,'≥ 2 次符合 B、C 的發作'],['B',D.aura&&D.auraT.size>0,'≥ 1 種完全可逆的前兆症狀'],['C',nf>=3,`前兆特徵 ≥ 3 項（${nf} 項）`],['D',!secondary,'無其他更合適的診斷']];
   /* 1.3 chronic migraine */
   const migBase=(m11.slice(1,4).every(x=>x[1]))||(m12[1][1]&&m12[2][1]);
-  const m13=[['A',D.mhd>=15&&D.months>=3,`頭痛 ≥ 15 天/月且 > 3 個月（${D.mhd} 天、${D.months} 個月）`],['B',migBase&&D.n>=5,'曾有 ≥ 5 次符合偏頭痛準則的發作'],['C',D.mmd>=8,`≥ 8 天/月具偏頭痛特徵或 triptan 有效（${D.mmd} 天）`],['D',!secondary,'無其他更合適的診斷']];
+  const m13=[['A',D.mhd>=15&&D.months>3,`頭痛 ≥ 15 天/月且 > 3 個月（${D.mhd} 天、${D.months} 個月）`],['B',migBase&&D.n>=5,'曾有 ≥ 5 次符合偏頭痛準則的發作'],['C',D.mmd>=8,`≥ 8 天/月具偏頭痛特徵或 triptan 有效（${D.mmd} 天）`],['D',!secondary,'無其他更合適的診斷']];
   /* 2 TTH */
   const t4=[D.loc==='bi',D.qual==='press',D.sev<=2,D.aggr===0],nt=t4.filter(Boolean).length;
   const tD=!A.has('vomit')&&!A.has('nausea')&&!(A.has('photo')&&A.has('phono'));
@@ -500,8 +501,8 @@ function ichd(){
   /* 3.1 cluster */
   const c31=[['A',D.n>=5,'≥ 5 次符合 B–D 的發作'],['B',D.sev>=3&&D.loc==='uni'&&D.orb&&durCl,'重度單側眼眶／顳部疼痛，持續 15–180 分鐘'],['C',D.auto.size>0,'同側自律神經症狀或躁動不安'],['D',D.cfreq,'頻率隔日 1 次至每日 8 次'],['E',!secondary,'無其他更合適的診斷']];
   /* 8.2 MOH */
-  const moh=D.mhd>=15&&D.months>=3&&(D.simple>=15||D.spec>=10||D.simple+D.spec>=10&&D.spec>0&&D.simple>0);
-  const m82=[['A',D.mhd>=15,'原有頭痛疾患者，頭痛 ≥ 15 天/月'],['B',(D.simple>=15||D.spec>=10||(D.simple>0&&D.spec>0&&D.simple+D.spec>=10))&&D.months>=3,`規律過度使用 > 3 個月（單純止痛藥 ${D.simple} 天、triptan／複方等 ${D.spec} 天）`],['C',!secondary,'無其他更合適的診斷']];
+  const moh=D.mhd>=15&&D.months>3&&(D.simple>=15||D.spec>=10||D.simple+D.spec>=10&&D.spec>0&&D.simple>0);
+  const m82=[['A',D.mhd>=15,'原有頭痛疾患者，頭痛 ≥ 15 天/月'],['B',(D.simple>=15||D.spec>=10||(D.simple>0&&D.spec>0&&D.simple+D.spec>=10))&&D.months>3,`規律過度使用 > 3 個月（單純止痛藥 ${D.simple} 天、triptan／複方等 ${D.spec} 天）`],['C',!secondary,'無其他更合適的診斷']];
   const ok=c=>c.every(x=>x[1]),miss=c=>c.filter(x=>!x[1]).length;
   const res=[];
   if(ok(m13))res.push({code:'1.3',name:'慢性偏頭痛',crit:m13,lv:'go'});
@@ -576,7 +577,7 @@ function evalPv(){
   const nf=P.fails.size,topi=P.fails.has('topi'),neuro=P.spec!=='other';
   const red=P.base>0?Math.round((1-P.now/P.base)*100):0;
   const common=[
-    [cmDx,`慢性偏頭痛：≥ 3 個月、每月 ≥ 15 天、每次 ≥ 4 小時，偏頭痛 ≥ 8 天（${P.mhd} 天、${P.mmd} 天、${P.months} 個月）`],
+    P.app==='cont'?[P.base>=15,`治療前符合慢性偏頭痛：每月 ≥ 15 天（治療前 ${P.base} 天），其餘條件以首次申請紀錄為準`]:[cmDx,`慢性偏頭痛：≥ 3 個月、每月 ≥ 15 天、每次 ≥ 4 小時，偏頭痛 ≥ 8 天（${P.mhd} 天、${P.mmd} 天、${P.months} 個月）`],
     [nf>=3&&topi,`≥ 3 種預防藥物無效或無法耐受，且包含 topiramate（${nf} 種${topi?'':'，缺 topiramate'}）`],
     [neuro,'神經內科或神經外科專科醫師診斷'+(neuro?'':'（目前為其他科別）')]
   ];
@@ -703,11 +704,11 @@ const CASES=[
   data:['治療前 20 天／月','目前 12 天／月','降低 40%','療程後續用'],
   ask:'健保續用會過嗎？如果現在是 10 天呢？病人覺得有效該怎麼談？',
   dx:{n:10,dur:'e',loc:'uni',qual:'puls',sev:3,aggr:1,assoc:['nausea','photo','phono'],mhd:20,mmd:12,months:12,simple:4,spec:4},
-  pv:{type:'cm',mhd:20,mmd:12,months:12,h4:1,dis:1,wk2:true,life:true,fails:['prop','topi','flun'],spec:'neuro',app:'cont',cert:true,oncgrp:true,base:20,now:12},
+  pv:{type:'cm',mhd:12,mmd:6,months:12,h4:1,dis:1,wk2:true,life:true,fails:['prop','topi','flun'],spec:'neuro',app:'cont',cert:true,oncgrp:true,base:20,now:12},
   expect:{codes:['1.3'],btx:false,cgrp:false,topi:true,ahs:'應提供預防治療',red:40},
   reason:['健保要求療程後每月頭痛天數較治療前降低 ≥ 50%；20 → 12 天只降 40%，不符合續用。','若現在是 10 天，降 50% 就符合。','Botox 也顯示不符合：目前併用 CGRP 單抗，且同樣未達 50%。'],
   next:['記錄完整頭痛日記與急性藥物天數，確認天數是否算對','AHS 2021 把 50% 當有用的參考，並視為以病人為中心的決定；這不同於健保的給付門檻，可討論自費延續','EHF 2022：首次療效評估至少在連續使用 3 個月後','能否改申請其他藥物，依健保署最新規定與事前審查結果為準；健保明定兩種單抗擇一且不得互換'],
-  pit:'本頁工具的慢性偏頭痛欄位要填治療前數值。續用模式若把目前的 12 天填進「每月頭痛天數」，也會被判為不符合慢性偏頭痛。',
+  pit:'有效的病人目前天數本來就可能低於 15 天，所以續用是看治療前的天數與降幅，不是看現在還符不符合慢性偏頭痛。治療前基準填錯，判定就會跟著錯。',
   cite:'健保 1.6.5（115.8.21）；Ailani 2021；Sacco 2022 問題 3'}
 ];
 /*CASES-END*/
@@ -751,7 +752,7 @@ const MAP={
   ['何時預防',[['應提供：≥ 6 天無失能、≥ 4 天部分、≥ 3 天嚴重','A21'],['可考慮：4–5 天無失能、3 天部分、2 天嚴重','A21'],['偏癱性、腦幹、前兆 > 60 分鐘、曾偏頭痛性梗塞：低頻也考慮','A21'],['療效參考：頭痛天數降約 50%，由病人共同決定','A21']]],
   ['預防選藥',[['陣發性：propranolol 第一線；valproate、topiramate、flunarizine、amitriptyline 第二線','T17'],['慢性：OnabotulinumtoxinA、topiramate','T17'],['CGRP 標靶治療可作第一線','A24'],['CGRP 單抗首次評估：連續使用 ≥ 3 個月後','E22'],['藥物過度使用者也建議提供 CGRP 單抗','E22']]],
   ['台灣健保',[['Botox、CGRP 單抗：慢性偏頭痛、≥ 3 藥失敗且含 topiramate、神經專科','NHI'],['續用：每月頭痛天數降低 ≥ 50%','NHI'],['療程結束後半年內不得再申請','NHI'],['Botox 與 CGRP 單抗不併用；兩種單抗擇一不互換','NHI'],['Topiramate：嚴重影響、特殊亞型或每週 ≥ 2 次，且現有藥物不佳','NHI']]],
-  ['女性與孕產',[['前兆偏頭痛用複方避孕藥：類別 4','MEC'],['Topiramate 降低複方避孕藥效果：類別 3','MEC'],['孕期急性首選 acetaminophen；麥角類避免','NE'],['Valproate、topiramate 孕期避免','NE'],['CGRP 單抗懷孕與哺乳避免','E22']]],
+  ['女性與孕產',[['前兆偏頭痛用複方避孕藥：類別 4','MEC'],['Topiramate 降低複方避孕藥效果：類別 3','MEC'],['孕期急性首選 acetaminophen；麥角類避免','NE'],['孕期預防：β 阻斷劑第一線，amitriptyline 第二線；台灣頭痛學會 2017 不建議用藥','NE'],['Valproate、topiramate 孕期避免','NE'],['CGRP 單抗懷孕與哺乳避免','E22']]],
   ['叢發性處置',[['100% 氧氣 12 L/min × 15 分鐘','CO'],['皮下 sumatriptan','CO'],['Verapamil 需監測心電圖','CE'],['Prednisone 短期過渡','OB'],['Galcanezumab 300 mg 每月（陣發性）','GO']]]
  ]
 };

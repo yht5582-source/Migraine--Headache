@@ -134,6 +134,63 @@ th{font-weight:500;color:var(--ink-2);font-size:12.5px;white-space:nowrap}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);font-size:13.5px;padding:8px 16px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:10}
 .toast.show{opacity:1}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* teaching tabs */
+.case-grid{display:grid;gap:16px}
+.case-head{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline;margin-bottom:8px}
+.case-no{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:500}
+.case-head h3{font-size:17px}
+.case-tags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.case-tags span{font-size:12.5px;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--ink-2)}
+.case-ask{font-weight:500;margin-top:8px}
+.case-actions{margin-top:12px}
+.verdicts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
+@media (max-width:640px){.verdicts{grid-template-columns:minmax(0,1fr)}}
+.vd{border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;min-width:0}
+.vd .k{font-size:12px;color:var(--ink-2)}
+.vd .v{font-family:var(--f-display);font-size:17px;line-height:1.35}
+.vd .how{font-size:12.5px;color:var(--ink-2);margin-top:2px}
+.vd.go{border-color:var(--go);background:var(--go-soft)} .vd.go .v{color:var(--go)}
+.vd.warn{border-color:var(--warn);background:var(--warn-soft)} .vd.warn .v{color:var(--warn)}
+.vd.info{border-color:var(--info);background:var(--info-soft)} .vd.info .v{color:var(--info)}
+.vd.stop{border-color:var(--stop);background:var(--stop-soft)} .vd.stop .v{color:var(--stop)}
+.cite{font-size:12.5px;color:var(--ink-3);margin-top:8px}
+
+/* quiz */
+.quiz-bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-bottom:16px}
+.quiz-score{font-size:14px;color:var(--ink-2)}
+.quiz-score b{font-family:var(--f-mono);font-weight:500;color:var(--ink)}
+.qitem .qno{font-family:var(--f-mono);font-size:13px;color:var(--accent);margin-right:6px}
+.qitem .stem{font-size:15px;font-weight:500;margin:6px 0 10px}
+.opts{display:grid;gap:6px}
+.opt{appearance:none;font:inherit;font-size:14px;text-align:left;display:grid;grid-template-columns:24px minmax(0,1fr);gap:6px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:8px 10px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt b{font-family:var(--f-mono);font-weight:500;color:var(--ink-3)}
+.opt.right{border-color:var(--go);background:var(--go-soft)} .opt.right b{color:var(--go)}
+.opt.wrong{border-color:var(--stop);background:var(--stop-soft)} .opt.wrong b{color:var(--stop)}
+.explain{margin-top:10px;font-size:14px;border-left:3px solid var(--line);padding:2px 0 2px 12px}
+.explain strong.ok{color:var(--go)} .explain strong.bad{color:var(--stop)}
+
+/* mind map */
+.map-bar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.mm{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 148px minmax(0,1fr);gap:0 52px;align-items:center}
+.mm svg.links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.mm svg.links path{fill:none;stroke:var(--line);stroke-width:1.6}
+.mm svg.links path.l{stroke:var(--accent)} .mm svg.links path.r{stroke:var(--info)}
+.mm-root{position:relative;z-index:1;text-align:center;font-family:var(--f-display);font-size:18px;line-height:1.35;background:var(--ink);color:var(--paper);border-radius:12px;padding:16px 10px}
+.mm-side{position:relative;z-index:1;display:grid;gap:10px;min-width:0}
+.mm-title{font-size:12px;letter-spacing:.08em;color:var(--ink-3);font-weight:500}
+.mm-node{background:var(--panel);border:1.5px solid var(--line);border-radius:10px;min-width:0}
+.mm-side.left .mm-node{border-color:var(--accent)} .mm-side.right .mm-node{border-color:var(--info)}
+.mm-btn{appearance:none;width:100%;border:0;background:none;font:inherit;font-weight:500;font-size:14.5px;color:var(--ink);text-align:left;cursor:pointer;display:flex;gap:8px;justify-content:space-between;align-items:center;padding:8px 12px}
+.mm-btn i{font-style:normal;font-family:var(--f-mono);color:var(--ink-3);flex:none}
+.mm-node ul{margin:0;padding:0 12px 10px 28px;display:grid;gap:5px;font-size:13.5px}
+.mm-node li small{color:var(--ink-3);font-size:11.5px;margin-left:4px;white-space:nowrap}
+@media (max-width:900px){
+  .mm{grid-template-columns:minmax(0,1fr);gap:14px}
+  .mm svg.links{display:none}
+  .mm-root{order:-1}
+}
 </style>
 </head>
 <body>
@@ -147,6 +204,9 @@ th{font-weight:500;color:var(--ink-2);font-size:12.5px;white-space:nowrap}
       <button class="tab" role="tab" id="tab-dx" aria-controls="dx" data-t="dx"><b>1</b>ICHD-3 引導式診斷</button>
       <button class="tab" role="tab" id="tab-pv" aria-controls="pv" data-t="pv"><b>2</b>預防治療與給付評估</button>
       <button class="tab" role="tab" id="tab-ref" aria-controls="ref" data-t="ref"><b>3</b>用藥速查與文獻</button>
+      <button class="tab" role="tab" id="tab-cases" aria-controls="cases" data-t="cases"><b>4</b>示範病例</button>
+      <button class="tab" role="tab" id="tab-quiz" aria-controls="quiz" data-t="quiz"><b>5</b>考題</button>
+      <button class="tab" role="tab" id="tab-map" aria-controls="map" data-t="map"><b>6</b>心智圖</button>
     </nav>
   </header>
 
@@ -329,10 +389,50 @@ th{font-weight:500;color:var(--ink-2);font-size:12.5px;white-space:nowrap}
           <li>Charles AC, et al. Calcitonin gene-related peptide-targeting therapies are a first-line option for the prevention of migraine: an American Headache Society position statement update. <i>Headache</i> 2024;64:333–341. <a href="https://doi.org/10.1111/head.14692" target="_blank" rel="noopener">doi:10.1111/head.14692</a></li>
           <li>Sacco S, et al. European Headache Federation guideline on the use of monoclonal antibodies targeting the calcitonin gene related peptide pathway for migraine prevention – 2022 update. <i>J Headache Pain</i> 2022;23:67. <a href="https://doi.org/10.1186/s10194-022-01431-x" target="_blank" rel="noopener">doi:10.1186/s10194-022-01431-x</a></li>
           <li>Do TP, et al. Red and orange flags for secondary headaches in clinical practice: SNNOOP10 list. <i>Neurology</i> 2019;92:134–144.</li>
+          <li>Nguyen AT, et al. U.S. Medical Eligibility Criteria for Contraceptive Use, 2024. <i>MMWR Recomm Rep</i> 2024;73(4). <a href="https://doi.org/10.15585/mmwr.rr7304a1" target="_blank" rel="noopener">doi:10.15585/mmwr.rr7304a1</a></li>
+          <li>Negro A, et al. Headache and pregnancy: a systematic review. <i>J Headache Pain</i> 2017;18:106. <a href="https://doi.org/10.1186/s10194-017-0816-0" target="_blank" rel="noopener">doi:10.1186/s10194-017-0816-0</a></li>
+          <li>Carlsen LN, et al. Comparison of 3 treatment strategies for medication overuse headache. <i>JAMA Neurol</i> 2020. <a href="https://doi.org/10.1001/jamaneurol.2020.1179" target="_blank" rel="noopener">doi:10.1001/jamaneurol.2020.1179</a></li>
+          <li>Cohen AS, Burns B, Goadsby PJ. High-flow oxygen for treatment of cluster headache. <i>JAMA</i> 2009. <a href="https://doi.org/10.1001/jama.2009.1855" target="_blank" rel="noopener">doi:10.1001/jama.2009.1855</a></li>
+          <li>Cohen AS, Matharu MS, Goadsby PJ. Electrocardiographic abnormalities in patients with cluster headache on verapamil therapy. <i>Neurology</i> 2007. <a href="https://doi.org/10.1212/01.wnl.0000267319.18123.d3" target="_blank" rel="noopener">doi:10.1212/01.wnl.0000267319.18123.d3</a></li>
+          <li>Obermann M, et al. Prednisone versus placebo in short-term prevention of episodic cluster headache. <i>Lancet Neurol</i> 2021. <a href="https://doi.org/10.1016/S1474-4422(20)30363-X" target="_blank" rel="noopener">doi:10.1016/S1474-4422(20)30363-X</a></li>
+          <li>Goadsby PJ, et al. Trial of galcanezumab in prevention of episodic cluster headache. <i>N Engl J Med</i> 2019. <a href="https://doi.org/10.1056/NEJMoa1813440" target="_blank" rel="noopener">doi:10.1056/NEJMoa1813440</a></li>
+          <li>Singhal AB, et al. Reversible cerebral vasoconstriction syndromes: analysis of 139 cases. <i>Arch Neurol</i> 2011. <a href="https://doi.org/10.1001/archneurol.2011.68" target="_blank" rel="noopener">doi:10.1001/archneurol.2011.68</a></li>
+          <li>Ducros A. Reversible cerebral vasoconstriction syndrome. <i>Lancet Neurol</i> 2012. <a href="https://doi.org/10.1016/S1474-4422(12)70135-7" target="_blank" rel="noopener">doi:10.1016/S1474-4422(12)70135-7</a></li>
+          <li>Perry JJ, et al. Sensitivity of computed tomography performed within six hours of onset of headache for diagnosis of subarachnoid haemorrhage. <i>BMJ</i> 2011. <a href="https://doi.org/10.1136/bmj.d4277" target="_blank" rel="noopener">doi:10.1136/bmj.d4277</a></li>
+          <li>Mollan SP, et al. Idiopathic intracranial hypertension: consensus guidelines on management. <i>J Neurol Neurosurg Psychiatry</i> 2018. <a href="https://doi.org/10.1136/jnnp-2017-317440" target="_blank" rel="noopener">doi:10.1136/jnnp-2017-317440</a></li>
+          <li>Mukhtyar CB, et al. 2025 EULAR recommendations for the management of polymyalgia rheumatica and primary large vessel vasculitis. <i>Ann Rheum Dis</i> 2026. <a href="https://doi.org/10.1016/j.ard.2026.06.009" target="_blank" rel="noopener">doi:10.1016/j.ard.2026.06.009</a></li>
+          <li>Sumatriptan injection. Prescribing information, section 4 Contraindications (DailyMed／openFDA，2024 版).</li>
         </ol>
       </div>
     </div>
     <p class="disclaimer">本工具為臨床決策輔助與教學用途。ICHD-3 判定需結合完整病史與神經學檢查；健保給付以健保署最新公告及事前審查結果為準。</p>
+  </section>
+
+  <!-- ============ 4. Cases ============ -->
+  <section class="pane" id="cases" role="tabpanel" aria-labelledby="tab-cases" hidden>
+    <p class="small muted" style="margin-bottom:14px">6 例皆為虛構教學病例。先自己判讀，再按「看判讀」；診斷與給付結果由本頁工具即時算出，也可帶入工具修改條件。</p>
+    <div class="case-grid" id="case-list"></div>
+  </section>
+
+  <!-- ============ 5. Quiz ============ -->
+  <section class="pane" id="quiz" role="tabpanel" aria-labelledby="tab-quiz" hidden>
+    <div class="card quiz-bar">
+      <div class="seg" id="quiz-filter"><button data-v="all" aria-pressed="true">全部 20</button><button data-v="basic" aria-pressed="false">基礎 10</button><button data-v="adv" aria-pressed="false">高階 10</button></div>
+      <span class="quiz-score" id="quiz-score" aria-live="polite"></span>
+      <button class="btn" id="quiz-reset">重新作答</button>
+    </div>
+    <div class="case-grid" id="quiz-list"></div>
+    <p class="disclaimer">作答紀錄不會儲存，重新整理頁面後清除。</p>
+  </section>
+
+  <!-- ============ 6. Mind map ============ -->
+  <section class="pane" id="map" role="tabpanel" aria-labelledby="tab-map" hidden>
+    <div class="card map-bar">
+      <p class="small muted">點分支展開。出處標記：<b>I3</b> ICHD-3、<b>DO</b> Do 2019、<b>RC</b> Singhal 2011／Ducros 2012、<b>PE</b> Perry 2011、<b>MO</b> Mollan 2018、<b>EU</b> EULAR 2025、<b>A21</b> AHS 2021、<b>A24</b> AHS 2024、<b>E22</b> EHF 2022、<b>T17</b> 台灣頭痛學會 2017、<b>NHI</b> 健保規定、<b>MEC</b> U.S. MEC 2024、<b>NE</b> Negro 2017、<b>CO</b> Cohen 2009、<b>CE</b> Cohen 2007、<b>OB</b> Obermann 2021、<b>GO</b> Goadsby 2019。</p>
+      <div class="row"><button class="btn" id="map-open">全部展開</button><button class="btn" id="map-close">全部收合</button></div>
+    </div>
+    <div class="mm" id="mm"></div>
+    <p class="disclaimer">本心智圖為教學摘要。處方前請查最新仿單；健保給付以健保署最新公告及事前審查結果為準。</p>
   </section>
 </div>
 <div class="toast" id="toast" role="status"></div>
@@ -349,9 +449,10 @@ function chips(el,list,set,cls,pref){$(el).innerHTML=list.map(([k,t])=>`<label c
 const iso=d=>{const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10);};
 const addM=(s,m)=>{const d=new Date(s+'T00:00:00');d.setMonth(d.getMonth()+m);return iso(d);};
 const addW=(s,w)=>{const d=new Date(s+'T00:00:00');d.setDate(d.getDate()+w*7);return iso(d);};
-const TABS=['dx','pv','ref'];
-function showTab(id){TABS.forEach(t=>{$('#'+t).hidden=t!==id;$('#tab-'+t).setAttribute('aria-selected',t===id?'true':'false');});try{localStorage.setItem('mig-tab',id);}catch(e){}}
-$$('.tab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.t)));
+const TABS=['dx','pv','ref','cases','quiz','map'];
+function showTab(id){TABS.forEach(t=>{$('#'+t).hidden=t!==id;$('#tab-'+t).setAttribute('aria-selected',t===id?'true':'false');});try{localStorage.setItem('mig-tab',id);}catch(e){}if(id==='map')drawMap();}
+$$('.tab').forEach(b=>b.addEventListener('click',()=>{showTab(b.dataset.t);try{history.replaceState(null,'','#'+b.dataset.t);}catch(e){}}));
+window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(TABS.includes(h))showTab(h);});
 
 /* ================= 1. ICHD-3 ================= */
 const RF=[['sys','發燒或全身症狀'],['neo','癌症病史'],['def','神經學缺損或意識改變'],['thunder','突發劇痛（1 分鐘內達高峰）'],['old','50 歲後新發生'],['change','型態改變或新近發生且漸進惡化'],['pos','姿勢相關（站立或平躺加劇）'],['valsalva','咳嗽、用力或運動誘發'],['papill','視乳突水腫'],['preg','懷孕或產後'],['eye','眼睛紅痛合併視力模糊'],['trauma','頭部外傷後'],['immune','免疫功能低下（HIV、免疫抑制劑）']];
@@ -377,6 +478,7 @@ function fillDx(){
 }
 $('#dx-reset').addEventListener('click',()=>{D={rf:new Set(),n:1,dur:'e',loc:'uni',qual:'puls',sev:2,aggr:0,assoc:new Set(),aura:false,auraT:new Set(),auraF:new Set(),auto:new Set(),orb:false,cfreq:false,mhd:0,mmd:0,months:0,simple:0,spec:0};$('#d-sample').hidden=true;fillDx();renderDx();});
 
+/*ENGINE-DX-START*/
 function ichd(){
   const out=[],A=D.assoc,durMig=D.dur==='e',durTTH=['c','d','e','f'].includes(D.dur),durCl=['b','c'].includes(D.dur);
   const c4=[D.loc==='uni',D.qual==='puls',D.sev>=2,D.aggr===1],n4=c4.filter(Boolean).length;
@@ -416,6 +518,7 @@ function ichd(){
   }
   return{res,secondary,all:{m11,m12,m13,t2,c31,m82},typical};
 }
+/*ENGINE-DX-END*/
 function critHTML(c){return`<div class="crit">${c.map(([L,ok,t])=>`<div class="${ok?'y':'n'}"><span class="L">${L}</span><i>${ok?'✓':'✗'}</i><span>${esc(t)}</span></div>`).join('')}</div>`;}
 function renderDx(){
   fillDx();
@@ -462,6 +565,12 @@ function fillPv(){
 }
 $('#pv-reset').addEventListener('click',()=>{P={type:'em',mhd:0,mmd:0,months:0,h4:1,dis:0,wk2:false,special:false,life:false,fails:new Set(),spec:'neuro',app:'new',cert:false,onbtx:false,oncgrp:false,base:0,now:0,gap:0,start:iso(new Date())};$('#p-sample').hidden=true;renderPv();});
 
+/*ENGINE-PV-START*/
+function ahsPrev(m,d){
+  if(m>=6||(m>=4&&d>=1)||(m>=3&&d>=2))return['應提供預防治療','go'];
+  if(m>=4||(m>=3&&d>=1)||(m>=2&&d>=2))return['可考慮預防治療','warn'];
+  return['目前不需預防治療','info'];
+}
 function evalPv(){
   const cmDx=P.mhd>=15&&P.months>=3&&P.h4===1&&P.mmd>=8;
   const nf=P.fails.size,topi=P.fails.has('topi'),neuro=P.spec!=='other';
@@ -482,6 +591,7 @@ function evalPv(){
   const pass=a=>a.every(x=>x[0]===true||x[0]==='na');
   return{cmDx,btx,cgrp,tp,okB:pass(btx),okC:pass(cgrp),okT:pass(tp),nf,topi,red};
 }
+/*ENGINE-PV-END*/
 function gateHTML(a){return`<div class="gate">${a.map(([ok,t])=>`<div class="${ok==='na'?'na':ok?'y':'n'}"><i>${ok==='na'?'•':ok?'✓':'✗'}</i><span>${esc(t)}</span></div>`).join('')}</div>`;}
 function card(title,rule,ok,rows,extra){return`<div class="elig ${ok?'ok':'no'}"><div class="elig-h"><h3>${title}</h3><span class="pill ${ok?'go':'stop'}">${ok?'符合健保給付':'不符合'}</span></div><div class="rule">${rule}</div>${gateHTML(rows)}${extra||''}</div>`;}
 function renderPv(){
@@ -494,10 +604,7 @@ function renderPv(){
     card('Topiramate（偏頭痛預防）','健保藥品給付規定 1.3.2.3 第 2 項',e.okT,e.tp,typeWarn);
   /* society */
   const d=P.dis,m=P.mhd;
-  let prev,pc;
-  if(m>=6||(m>=4&&d>=1)||(m>=3&&d>=2)){prev='應提供預防治療';pc='go';}
-  else if(m>=4||(m>=3&&d>=1)||(m>=2&&d>=2)){prev='可考慮預防治療';pc='warn';}
-  else{prev='目前不需預防治療';pc='info';}
+  const [prev,pc]=ahsPrev(m,d);
   const thsFirst=P.type==='cm'?'Botox 與 topiramate':'Propranolol（第一線）；valproic acid、topiramate、flunarizine、amitriptyline（第二線）';
   $('#soc').innerHTML=`
     <div class="gate">
@@ -534,6 +641,202 @@ $('#pv-copy').addEventListener('click',()=>{const e=window.__pv,L=[];
   const miss=[...e.btx,...e.cgrp].filter(x=>x[0]===false).map(x=>x[1]);if(miss.length)L.push('未符合：'+[...new Set(miss)].join('；'));
   if(P.app==='cont')L.push(`療效：${P.base} → ${P.now} 天（降低 ${e.red}%）`);
   L.push('依據：健保藥品給付規定第一節（115.8.21）、台灣頭痛學會 2017、AHS 2021／2024、EHF 2022');copyText(L.join('\n'));});
+
+/* ================= 4–6. Teaching ================= */
+/*CASES-START*/
+const CASES=[
+ {id:'c1',title:'每月 5 天的無前兆偏頭痛，該開始預防嗎？',tag:'基礎',
+  stem:'27 歲女性，教師。2 年來反覆單側搏動性頭痛，中至重度，爬樓梯加劇，伴噁心、畏光與怕吵，未治療時持續 12–24 小時。頭痛日記近 3 個月每月 5 天，都符合偏頭痛特徵，每月吃 ibuprofen 4 天，但常要請假。神經學檢查正常，沒有危險徵象。明年打算懷孕。',
+  data:['頭痛 5 天／月','單純止痛藥 4 天／月','部分失能','計畫懷孕'],
+  ask:'診斷是什麼？依 AHS 2021 該提供預防治療嗎？健保 CGRP 單抗會過嗎？',
+  dx:{n:10,dur:'e',loc:'uni',qual:'puls',sev:3,aggr:1,assoc:['nausea','photo','phono'],mhd:5,mmd:5,months:3,simple:4,spec:0},
+  pv:{type:'em',mhd:5,mmd:5,months:3,dis:1},
+  expect:{codes:['1.1'],btx:false,cgrp:false,topi:false,ahs:'應提供預防治療'},
+  reason:['B、C、D 三項準則都符合，且發作 ≥ 10 次，判定 1.1 無前兆偏頭痛。','AHS 2021 Table 4：≥ 4 天／月且有部分失能，屬於「應提供」預防治療。','健保 Botox 與 CGRP 單抗都要求慢性偏頭痛，每月 5 天不符合；topiramate 也還沒有其他預防藥失敗。','AHS 2024 與 EHF 2022 把 CGRP 單抗列為第一線選項，但這是學會立場，不代表健保給付。'],
+  next:['急性治療：輕中度用 NSAID；中重度或 NSAID 反應差時用 triptan（AHS 2021）','急性藥物平均每週以 2 個頭痛日為限（AHS 2021）','選預防藥前先談懷孕計畫：valproate 與 topiramate 孕期應避免（Negro 2017）','台灣頭痛學會 2017：propranolol 為陣發性偏頭痛第一線'],
+  pit:'「有失能、需要預防」和「符合健保給付」是兩個問題，要分開回答。',
+  cite:'ICHD-3 1.1；Ailani 2021 Table 4；Charles 2024；Sacco 2022；Negro 2017 Table 4；健保 1.6.2.1 第 7 項、1.6.5'},
+ {id:'c2',title:'視覺前兆，正在吃複方避孕藥',tag:'共病',
+  stem:'31 歲女性，每月 2 次發作：先出現鋸齒狀閃光，約 15 分鐘慢慢往外擴散，接著右手到嘴角發麻，共約 40 分鐘，之後 30 分鐘內開始頭痛，持續一天。過去一年已有 8 次相似發作。目前吃含雌激素的複方口服避孕藥避孕，想繼續使用。',
+  data:['視覺＋感覺前兆','6 項前兆特徵皆符合','頭痛 2 天／月','使用 COC'],
+  ask:'前兆符合 ICHD-3 嗎？避孕方式要改嗎？頻率需要預防治療嗎？',
+  dx:{n:5,dur:'e',loc:'uni',qual:'puls',sev:2,aggr:1,assoc:['nausea','photo','phono'],aura:true,auraT:['vis','sens'],auraF:['spread','succ','each','unil','pos','hd60'],mhd:2,mmd:2,months:12,simple:2,spec:0},
+  pv:{type:'em',mhd:2,mmd:2,months:12,dis:0},
+  expect:{codes:['1.2.1'],btx:false,cgrp:false,topi:false,ahs:'目前不需預防治療'},
+  reason:['≥ 2 次發作、完全可逆的視覺與感覺症狀、6 項特徵全符合（只需 ≥ 3 項），判定 1.2.1 典型前兆偏頭痛。','U.S. MEC 2024：前兆偏頭痛使用複方荷爾蒙避孕為類別 4；無前兆為類別 2。','每月 2 天且無失能，依 AHS 2021 Table 4 尚未達預防治療門檻。'],
+  next:['與病人討論改用非雌激素方法：含銅或 LNG 子宮內避孕器、單純黃體素方法在 U.S. MEC 都是類別 1','若日後要用 topiramate：它可能降低複方避孕藥與單純黃體素避孕藥、植入劑的效果','典型前兆本身不在 sumatriptan 仿單禁忌內，仿單禁忌的是偏癱性與基底型'],
+  pit:'準則 C 提醒前兆是逐漸擴散、相繼出現的。突發、只有負性症狀且不擴散的表現不符合這些特徵，應另外考慮腦血管事件。',
+  cite:'ICHD-3 1.2；Nguyen 2024 (U.S. MEC) 頭痛與抗癲癇藥欄位；Ailani 2021 Table 4；Sumatriptan 仿單第 4 節'},
+ {id:'c3',title:'每月 22 天頭痛，triptan 用了 14 天',tag:'給付',
+  stem:'46 歲女性，偏頭痛 8 年。近 6 個月每月頭痛 22 天，其中 12 天有偏頭痛特徵，每次超過 4 小時。每月用 triptan 14 天、acetaminophen 6 天。Propranolol、flunarizine 無效，topiramate 因感覺異常與認知遲鈍無法耐受。無危險徵象，神經內科門診追蹤，注射醫師已完成 PREEMPT 認證。',
+  data:['頭痛 22 天／月','偏頭痛特徵 12 天／月','Triptan 14 天／月','3 種預防藥失敗，含 topiramate'],
+  ask:'該下幾個診斷？健保可以申請什麼？藥物過度使用要先處理嗎？',
+  dx:{n:10,dur:'e',loc:'uni',qual:'puls',sev:3,aggr:1,assoc:['nausea','photo','phono'],mhd:22,mmd:12,months:6,simple:6,spec:14},
+  pv:{type:'cm',mhd:22,mmd:12,months:6,h4:1,dis:2,wk2:true,life:true,fails:['prop','topi','flun'],spec:'neuro',app:'new',cert:true},
+  expect:{codes:['1.3','8.2'],btx:true,cgrp:true,topi:true,ahs:'應提供預防治療'},
+  reason:['ICHD-3 明文：同時符合 1.3 與 8.2 時，兩個診斷都要給。','Triptan ≥ 10 天／月超過 3 個月符合過度使用，細項為 8.2.2；acetaminophen 6 天未達單純止痛藥的 15 天門檻。','健保首次申請的條件都符合：慢性偏頭痛、≥ 3 種預防藥失敗且含 topiramate、神經專科。Botox 與 CGRP 單抗不得併用，只能選一種。'],
+  next:['Carlsen 2020：停藥合併預防藥的 MOH 治癒 96.8%，單用預防藥 74.3%，單純停藥 88.9%；回復陣發性分別為 74.2%、60.0%、41.7%','EHF 2022：藥物過度使用者建議提供 CGRP 單抗；相關試驗開始用藥時未另外安排停藥策略','首次申請後依時間表評估，每月頭痛天數需較治療前降低 ≥ 50% 才能續用'],
+  pit:'健保規定未把「先停藥」列為申請條件。頭痛日減少幅度在 Carlsen 2020 三組差異未達顯著（P = .20），不要把單一指標說成全部結論。',
+  cite:'ICHD-3 1.3、8.2；Carlsen 2020；Sacco 2022 問題 5；健保 1.6.2.1 第 7 項、1.6.5'},
+ {id:'c4',title:'半夜痛醒、在房間來回踱步',tag:'鑑別',
+  stem:'38 歲男性，抽菸。每年春秋各有約 5 週的發作期，此時每天 1–3 次右眼窩劇痛，常在半夜，每次 45–90 分鐘，同側流淚、鼻塞流鼻水，痛時坐不住要來回走動。這次發作期已 2 週，之前被當偏頭痛給口服藥效果不佳。神經學檢查在發作間期正常，沒有心傳導病史。',
+  data:['單次 45–90 分鐘','每日 1–3 次','同側自律神經症狀','躁動不安'],
+  ask:'診斷是什麼？急性與過渡期、長期預防怎麼安排？用藥前要先做什麼？',
+  dx:{n:10,dur:'c',loc:'uni',qual:'other',sev:4,aggr:0,assoc:[],auto:['conj','nasal','rest'],orb:true,cfreq:true,mhd:14,mmd:0,months:1,simple:0,spec:0},
+  expect:{codes:['3.1']},
+  reason:['重度單側眼眶痛 15–180 分鐘、同側自律神經症狀或躁動、頻率隔日 1 次至每日 8 次，判定 3.1 叢發性頭痛。','持續時間與「坐不住」都和偏頭痛不同；偏頭痛持續 4–72 小時且活動會加劇。','本例不走偏頭痛的健保給付評估：第 2 分頁只判定偏頭痛預防治療。'],
+  next:['急性：100% 氧氣 12 L/min 面罩吸 15 分鐘，15 分鐘無痛或明顯緩解 78%，對照空氣 20%（Cohen 2009）；或皮下 sumatriptan','預防：verapamil。開始與調劑量時做心電圖，Cohen 2007 有 EKG 者心律不整 19%、心搏過慢 36%','過渡：prednisone 100 mg × 5 天再每 3 天減 20 mg，第一週 7.1 次，對照 9.5 次（Obermann 2021）','Galcanezumab 300 mg 每月在陣發性叢發性頭痛有試驗（Goadsby 2019），但健保 1.6.5 只規範慢性偏頭痛'],
+  pit:'每次只有 2–30 分鐘、每天 > 5 次要想到陣發性半邊頭痛，它對 indomethacin 有絕對反應。ICHD-3 的 3.1 準則 E 仍要求排除其他診斷。',
+  cite:'ICHD-3 3.1、3.2；Cohen 2009；Cohen 2007；Obermann 2021；Goadsby 2019'},
+ {id:'c5',title:'偏頭痛病史，產後第 6 天雷擊頭痛',tag:'危險徵象',
+  stem:'33 歲女性，無前兆偏頭痛多年。產後第 6 天洗澡時突然劇烈頭痛，不到 1 分鐘達高峰，和過去的偏頭痛不一樣，2 天內又發作 3 次。在家自行吃了 sumatriptan。血壓 150/95 mmHg，神經學檢查正常。第一次頭痛至今已超過 48 小時。',
+  data:['1 分鐘內達高峰','產後','型態改變','已用 triptan'],
+  ask:'可以用偏頭痛解釋嗎？要排除什麼？第一次影像正常就能放心嗎？',
+  dx:{rf:['thunder','preg','change'],n:10,dur:'c',loc:'bi',qual:'other',sev:4,aggr:0,assoc:['nausea'],mhd:3,mmd:0,months:1,simple:0,spec:2},
+  expect:{codes:[],secondary:true},
+  reason:['工具不給任何原發性頭痛診斷：有危險徵象時，先排除次發性頭痛。','既有偏頭痛不是保護因子。Singhal 2011 的 RCVS 病人 40% 有偏頭痛病史。','懷孕與產褥期相關次發性頭痛包括中風、靜脈竇血栓、蛛網膜下腔出血、子癇前症、子癇與 RCVS（Negro 2017）。','反覆雷擊頭痛、產後、使用血管收縮藥物，都指向 RCVS；Ducros 2012 指出超過一半發生在產後或暴露於腎上腺素性、血清素性藥物後。'],
+  next:['緊急評估：血壓與子癇前症檢查，腦部影像合併動靜脈血管影像','停用 triptan 與其他血管收縮藥物','CT 的高敏感度只限 6 小時內且由合格放射科判讀（Perry 2011：6 小時內 100%，整體 92.9%）；本例已超過，陰性不足以排除','RCVS 不宜依賴類固醇：Singhal 2011 glucocorticoid 有預後較差的趨勢 (P = .08)'],
+  pit:'入院影像正常的 RCVS 有 55%，最後 81% 出現腦部病灶；中風可在影像正常數天後發生，血管收縮在發病 2–3 週最明顯。一次正常不等於排除。',
+  cite:'Do 2019；Negro 2017；Singhal 2011；Ducros 2012；Perry 2011'},
+ {id:'c6',title:'CGRP 單抗 3 個月，頭痛天數降 40%',tag:'給付',
+  stem:'42 歲女性，慢性偏頭痛。符合條件後用 fremanezumab 3 個月（propranolol、topiramate、flunarizine 均失敗）。治療前每月頭痛 20 天，現在 12 天，自覺好很多，急性藥物也減少。神經內科回診希望申請下一期。',
+  data:['治療前 20 天／月','目前 12 天／月','降低 40%','療程後續用'],
+  ask:'健保續用會過嗎？如果現在是 10 天呢？病人覺得有效該怎麼談？',
+  dx:{n:10,dur:'e',loc:'uni',qual:'puls',sev:3,aggr:1,assoc:['nausea','photo','phono'],mhd:20,mmd:12,months:12,simple:4,spec:4},
+  pv:{type:'cm',mhd:20,mmd:12,months:12,h4:1,dis:1,wk2:true,life:true,fails:['prop','topi','flun'],spec:'neuro',app:'cont',cert:true,oncgrp:true,base:20,now:12},
+  expect:{codes:['1.3'],btx:false,cgrp:false,topi:true,ahs:'應提供預防治療',red:40},
+  reason:['健保要求療程後每月頭痛天數較治療前降低 ≥ 50%；20 → 12 天只降 40%，不符合續用。','若現在是 10 天，降 50% 就符合。','Botox 也顯示不符合：目前併用 CGRP 單抗，且同樣未達 50%。'],
+  next:['記錄完整頭痛日記與急性藥物天數，確認天數是否算對','AHS 2021 把 50% 當有用的參考，並視為以病人為中心的決定；這不同於健保的給付門檻，可討論自費延續','EHF 2022：首次療效評估至少在連續使用 3 個月後','能否改申請其他藥物，依健保署最新規定與事前審查結果為準；健保明定兩種單抗擇一且不得互換'],
+  pit:'本頁工具的慢性偏頭痛欄位要填治療前數值。續用模式若把目前的 12 天填進「每月頭痛天數」，也會被判為不符合慢性偏頭痛。',
+  cite:'健保 1.6.5（115.8.21）；Ailani 2021；Sacco 2022 問題 3'}
+];
+/*CASES-END*/
+
+/*QUIZ-START*/
+const QUIZ=[
+ {lv:'basic',q:'依 ICHD-3，1.1 無前兆偏頭痛至少要有幾次符合準則的發作？',o:['2 次','5 次','10 次','20 次'],a:1,e:'前兆偏頭痛 ≥ 2 次、叢發性頭痛 ≥ 5 次、緊縮型頭痛 ≥ 10 次、陣發性半邊頭痛 ≥ 20 次。',s:'ICHD-3 1.1、1.2、3.1、3.2'},
+ {lv:'basic',q:'未治療或治療無效時，偏頭痛單次發作的持續時間是？',o:['4–72 小時','15–180 分鐘','2–30 分鐘','5–60 分鐘'],a:0,e:'15–180 分鐘是叢發性頭痛，2–30 分鐘是陣發性半邊頭痛，5–60 分鐘是單一前兆症狀的時間。',s:'ICHD-3 1.1、1.2、3.1、3.2'},
+ {lv:'basic',q:'1.2 前兆偏頭痛的準則 C，六項前兆特徵至少要符合幾項？',o:['1 項','2 項','3 項','4 項'],a:2,e:'包括逐漸擴散 ≥ 5 分鐘、相繼出現、每項 5–60 分鐘、至少一項單側、至少一項正性、伴隨或 60 分鐘內出現頭痛。',s:'ICHD-3 1.2'},
+ {lv:'basic',q:'下列何者符合慢性偏頭痛的天數準則？',o:['≥ 8 天/月超過 3 個月，其中 ≥ 4 天具偏頭痛特徵','≥ 10 天/月超過 3 個月，其中 ≥ 5 天具偏頭痛特徵','≥ 15 天/月超過 1 個月，其中 ≥ 8 天具偏頭痛特徵','≥ 15 天/月超過 3 個月，其中 ≥ 8 天具偏頭痛特徵'],a:3,e:'另須曾有 ≥ 5 次符合偏頭痛準則的發作。Triptan 或麥角有效、病人認為發作時是偏頭痛的日子也可計入 8 天。',s:'ICHD-3 1.3'},
+ {lv:'basic',q:'Triptan 過度使用頭痛的使用天數門檻是？（已規律使用超過 3 個月）',o:['≥ 10 天/月','≥ 5 天/月','≥ 15 天/月','≥ 20 天/月'],a:0,e:'麥角、triptan、鴉片類、複方止痛藥與多類藥物合計是 ≥ 10 天／月；acetaminophen 與 NSAID 等非鴉片止痛藥是 ≥ 15 天／月。',s:'ICHD-3 8.2；Ailani 2021 Table 5'},
+ {lv:'basic',q:'叢發性頭痛發作開始時，下列哪項有隨機試驗支持？',o:['口服 ibuprofen 並在暗室平躺休息','面罩吸入 100% 氧氣 15 分鐘','舌下 nifedipine 降血壓後再觀察','口服 flunarizine 後安排隔日回診'],a:1,e:'Cohen 2009 以 12 L/min 吸 15 分鐘，15 分鐘無痛或明顯緩解 78%，對照空氣 20%。',s:'Cohen 2009'},
+ {lv:'basic',q:'前兆偏頭痛使用複方荷爾蒙避孕藥，U.S. MEC 2024 的類別是？',o:['類別 1','類別 2','類別 3','類別 4'],a:3,e:'類別 4 表示不可接受的健康風險。無前兆偏頭痛為類別 2。含銅與 LNG 子宮內避孕器、單純黃體素方法在前兆偏頭痛都是類別 1。',s:'Nguyen 2024 (U.S. MEC)'},
+ {lv:'basic',q:'每月頭痛 4 天，有部分失能，依 AHS 2021 預防治療該怎麼定位？',o:['應提供預防治療','可考慮預防治療','目前不需預防治療','先排除次發性頭痛後才能回答'],a:0,e:'應提供：≥ 6 天無失能、≥ 4 天部分失能、≥ 3 天嚴重失能。可考慮：4–5 天無失能、3 天部分失能、2 天嚴重失能。',s:'Ailani 2021 Table 4',check:{ahs:[4,1],v:'應提供預防治療'}},
+ {lv:'basic',q:'下列哪一項列在 SNNOOP10 次發性頭痛危險徵象中？',o:['每次月經前後規律發作','發作時伴隨畏光與怕吵','由咳嗽、打噴嚏或運動誘發','睡眠不足或壓力後容易發作'],a:2,e:'清單還包括全身症狀、癌症病史、神經學缺損、突發、型態改變、姿勢性、視乳突水腫、懷孕產褥、頭部外傷、免疫異常與止痛藥過度使用等。',s:'Do 2019'},
+ {lv:'basic',q:'懷孕期間偏頭痛急性發作，系統性回顧列為首選的藥物是？',o:['Ergotamine','Acetaminophen','Aspirin、acetaminophen、咖啡因複方','第三孕期使用 ibuprofen'],a:1,e:'麥角類任何孕期都應避免；複方不建議；NSAID 第三孕期應避免。回顧也提到 acetaminophen 與氣喘、ADHD 的可能關聯，仍以最低有效劑量、最短時間為原則。',s:'Negro 2017 Table 4'},
+ {lv:'adv',q:'依 sumatriptan 仿單，下列哪一項病史屬於禁忌？',o:['典型視覺前兆偏頭痛','月經相關無前兆偏頭痛','偏癱性偏頭痛','每月 2 天的陣發性偏頭痛'],a:2,e:'禁忌另包括中風或 TIA、基底型偏頭痛、缺血性冠心病、周邊血管疾病、缺血性腸病與未控制的高血壓。',s:'Sumatriptan 注射劑仿單第 4 節（DailyMed/openFDA，2024 版）'},
+ {lv:'adv',q:'使用複方口服避孕藥的女性開始 topiramate，應注意什麼？',o:['可能降低避孕藥效果，U.S. MEC 列類別 3','會升高雌激素濃度，U.S. MEC 列類別 4','兩者沒有交互作用，U.S. MEC 列類別 1','主要影響子宮內避孕器，應改用口服藥'],a:0,e:'交互作用對人體本身無害，但可能降低避孕效果，建議改用其他方法。LNG-IUD 在同一欄為類別 1。',s:'Nguyen 2024 (U.S. MEC) 藥物交互作用欄位'},
+ {lv:'adv',q:'慢性偏頭痛，每月 22 天、偏頭痛 10 天、持續 8 個月、每次 ≥ 4 小時。Propranolol、flunarizine、amitriptyline 無效，神經內科首次申請 CGRP 單抗。健保判定？',o:['符合，已有 3 種預防藥物失敗','符合，CGRP 單抗不需事前審查','不符合，需要 5 種藥物都失敗','不符合，失敗藥物未包含 topiramate'],a:3,e:'條件是 ≥ 3 種預防藥物無效或無法耐受，且其中要有 topiramate。AHS 2024 不要求先失敗，但那是學會立場，不是給付條件。',s:'健保 1.6.5（115.8.21）；Charles 2024',check:{pv:{type:'cm',mhd:22,mmd:10,months:8,h4:1,fails:['prop','flun','ami'],spec:'neuro',app:'new'},okC:false}},
+ {lv:'adv',q:'CGRP 單抗 3 個月後申請續用，每月頭痛由 20 天降到 11 天。健保判定？',o:['符合，只要降低 ≥ 30%','不符合，降低 45% 未達 ≥ 50%','符合，因為已完成 3 個月療程','不符合，降低幅度要達 ≥ 75%'],a:1,e:'(20−11)/20 = 45%。降到 10 天才達 50%。學會把 50% 當參考，健保把它當續用門檻。',s:'健保 1.6.5（115.8.21）；Ailani 2021',check:{pv:{type:'cm',mhd:20,mmd:12,months:12,h4:1,fails:['prop','topi','flun'],spec:'neuro',app:'cont',oncgrp:true,base:20,now:11},okC:false,red:45}},
+ {lv:'adv',q:'Carlsen 2020 比較三種 MOH 策略，哪一組 MOH 治癒與回復陣發性的比例最高？',o:['只停用過度使用的藥物','只開始預防藥物','停藥合併預防藥物','三組的兩項結果完全相同'],a:2,e:'治癒 96.8%、74.3%、88.9%（依停藥＋預防、單用預防、單純停藥）；回復陣發性 74.2%、60.0%、41.7%。頭痛日減少的差異則未達顯著 (P = .20)。',s:'Carlsen 2020'},
+ {lv:'adv',q:'40 歲女性，右眼眶劇痛，每次 15 分鐘，每天 8 次，同側流淚鼻塞，連續 3 個月。最能幫助確立診斷的是？',o:['Indomethacin 治療性試驗','高流量氧氣並診斷叢發性頭痛','開始 CGRP 單抗 3 個月後評估','皮下 sumatriptan 並安排腦波'],a:0,e:'2–30 分鐘、> 5 次／天符合 3.2 陣發性半邊頭痛，準則要求治療劑量 indomethacin 能絕對預防；口服起始至少 150 mg／日，必要時加到 225 mg／日。',s:'ICHD-3 3.2'},
+ {lv:'adv',q:'慢性偏頭痛病人有許多壓迫感、無噁心的輕度頭痛日。ICHD-3 如何處理這些日子？',o:['不算頭痛日，只計入偏頭痛日','需另外加上慢性緊縮型頭痛診斷','應把診斷改為 1.5 可能偏頭痛','算進 15 天，也不另診斷慢性緊縮型'],a:3,e:'1.3 的準則 A 包含偏頭痛樣與緊縮型樣頭痛，因此這個診斷排除了 2.3 慢性緊縮型頭痛。',s:'ICHD-3 1.3 註解'},
+ {lv:'adv',q:'疑似 RCVS 的雷擊頭痛病人，入院 CT 正常。下列何者正確？',o:['入院電腦斷層正常就可以排除','初次影像正常不能排除，需要追蹤','應先給 triptan 測試治療反應','血管收縮在發病第一小時最明顯'],a:1,e:'Singhal 2011 入院影像正常 55%，最後 81% 出現病灶。Ducros 2012：中風可在影像正常後數天發生，血管收縮 2–3 週最明顯。',s:'Singhal 2011；Ducros 2012'},
+ {lv:'adv',q:'肥胖女性頭痛合併雙側視乳突水腫，懷疑 IIH。腰椎穿刺前應完成？',o:['先開 acetazolamide，1 個月後再影像','影像可省略，直接測開口壓','緊急 MRI，以及 CT 或 MR 靜脈攝影','只做眼底攝影，就開始減重計畫'],a:2,e:'共識要求 24 小時內緊急腦部影像，並以靜脈攝影排除靜脈竇血栓。影像正常後才腰穿；診斷切點是開口壓 > 25 cm CSF，且不應單獨解讀。',s:'Mollan 2018'},
+ {lv:'adv',q:'72 歲新發頭痛、咀嚼時下顎痛，高度懷疑巨細胞動脈炎。依 EULAR 2025 應如何處理？',o:['等顳動脈切片結果後再給類固醇','先用 triptan，再安排門診 MRI','試用 prednisolone 10 mg 看反應','立即給 prednisone 當量 40–60 mg，24 小時內轉介'],a:3,e:'高度懷疑時不等確診檢查就開始類固醇，疑似者應於 24 小時內轉介專科。',s:'Mukhtyar 2026（EULAR 2025）'}
+];
+/*QUIZ-END*/
+
+/*MAP-START*/
+const MAP={
+ left:[
+  ['先排除次發性',[['SNNOOP10：全身症狀、癌症、神經缺損、突發','DO'],['型態改變、新發、姿勢性、咳嗽或用力誘發','DO'],['視乳突水腫、懷孕產褥、外傷、免疫異常','DO'],['有危險徵象時不給原發性診斷','I3']]],
+  ['偏頭痛 (ICHD-3)',[['1.1：≥ 5 次、4–72 小時、4 特徵 ≥ 2、噁心嘔吐或畏光加怕吵','I3'],['1.2：≥ 2 次、可逆前兆、6 特徵 ≥ 3','I3'],['運動前兆最長可到 72 小時','I3'],['1.3：≥ 15 天/月 > 3 個月，≥ 8 天具偏頭痛特徵','I3']]],
+  ['三叉自律神經頭痛',[['3.1 叢發性：15–180 分鐘，隔日 1 次至每日 8 次','I3'],['3.2 陣發性半邊：2–30 分鐘，> 5 次/天，indomethacin 絕對有效','I3'],['3.4 持續性半邊：> 3 個月，indomethacin 絕對有效','I3'],['Indomethacin 口服起始 ≥ 150 mg/日，最高 225 mg/日','I3']]],
+  ['藥物過度使用',[['頭痛 ≥ 15 天/月，且過度使用 > 3 個月','I3'],['Triptan、麥角、鴉片、複方、多類合計 ≥ 10 天/月','I3'],['非鴉片止痛藥 ≥ 15 天/月','I3'],['與 1.3 同時符合時兩個都診斷','I3']]],
+  ['不能錯過',[['RCVS：反覆雷擊頭痛，產後或血管收縮藥物；首次影像常正常','RC'],['SAH：CT 6 小時內 100%，整體 92.9%','PE'],['IIH：緊急 MRI＋靜脈攝影，開口壓 > 25 cm CSF','MO'],['GCA：高度懷疑即給 40–60 mg，24 小時內轉介','EU']]]
+ ],
+ right:[
+  ['急性治療',[['輕中度：NSAID、acetaminophen、含咖啡因複方','A21'],['中重度：triptan、DHE、gepant、ditan','A21'],['Triptan 不適用或反應差：gepant、ditan、神經調節裝置','A21'],['Lasmiditan 用藥後 8 小時內不開車','A21'],['平均每週以 2 個頭痛日為限','A21']]],
+  ['何時預防',[['應提供：≥ 6 天無失能、≥ 4 天部分、≥ 3 天嚴重','A21'],['可考慮：4–5 天無失能、3 天部分、2 天嚴重','A21'],['偏癱性、腦幹、前兆 > 60 分鐘、曾偏頭痛性梗塞：低頻也考慮','A21'],['療效參考：頭痛天數降約 50%，由病人共同決定','A21']]],
+  ['預防選藥',[['陣發性：propranolol 第一線；valproate、topiramate、flunarizine、amitriptyline 第二線','T17'],['慢性：OnabotulinumtoxinA、topiramate','T17'],['CGRP 標靶治療可作第一線','A24'],['CGRP 單抗首次評估：連續使用 ≥ 3 個月後','E22'],['藥物過度使用者也建議提供 CGRP 單抗','E22']]],
+  ['台灣健保',[['Botox、CGRP 單抗：慢性偏頭痛、≥ 3 藥失敗且含 topiramate、神經專科','NHI'],['續用：每月頭痛天數降低 ≥ 50%','NHI'],['療程結束後半年內不得再申請','NHI'],['Botox 與 CGRP 單抗不併用；兩種單抗擇一不互換','NHI'],['Topiramate：嚴重影響、特殊亞型或每週 ≥ 2 次，且現有藥物不佳','NHI']]],
+  ['女性與孕產',[['前兆偏頭痛用複方避孕藥：類別 4','MEC'],['Topiramate 降低複方避孕藥效果：類別 3','MEC'],['孕期急性首選 acetaminophen；麥角類避免','NE'],['Valproate、topiramate 孕期避免','NE'],['CGRP 單抗懷孕與哺乳避免','E22']]],
+  ['叢發性處置',[['100% 氧氣 12 L/min × 15 分鐘','CO'],['皮下 sumatriptan','CO'],['Verapamil 需監測心電圖','CE'],['Prednisone 短期過渡','OB'],['Galcanezumab 300 mg 每月（陣發性）','GO']]]
+ ]
+};
+/*MAP-END*/
+
+function dxState(st){return{rf:[],n:1,dur:'e',loc:'uni',qual:'puls',sev:2,aggr:0,assoc:[],aura:false,auraT:[],auraF:[],auto:[],orb:false,cfreq:false,mhd:0,mmd:0,months:0,simple:0,spec:0,...st,rf:new Set(st.rf||[]),assoc:new Set(st.assoc||[]),auraT:new Set(st.auraT||[]),auraF:new Set(st.auraF||[]),auto:new Set(st.auto||[])};}
+function pvState(st){return{type:'em',mhd:0,mmd:0,months:0,h4:1,dis:0,wk2:false,special:false,life:false,spec:'neuro',app:'new',cert:false,onbtx:false,oncgrp:false,base:0,now:0,gap:0,start:iso(new Date()),...st,fails:new Set(st.fails||[])};}
+function runCase(c){
+  const kD=D,kP=P;
+  try{
+    D=dxState(c.dx);const r=ichd();const out={codes:r.res.map(x=>x.code),names:r.res.map(x=>`${x.code} ${x.name}`),secondary:r.secondary};
+    if(c.pv){P=pvState(c.pv);const e=evalPv();Object.assign(out,{btx:e.okB,cgrp:e.okC,topi:e.okT,red:e.red,ahs:ahsPrev(P.mhd,P.dis)[0]});}
+    return out;
+  }finally{D=kD;P=kP;}
+}
+function loadDx(c,i){D=dxState(c.dx);const s=$('#d-sample');s.textContent=`示範病例 ${i+1}，非真實病人`;s.hidden=false;renderDx();showTab('dx');try{history.replaceState(null,'','#dx');}catch(e){}window.scrollTo(0,0);toast(`已帶入病例 ${i+1} 的問診內容`);}
+function loadPv(c,i){P=pvState(c.pv);const s=$('#p-sample');s.textContent=`示範病例 ${i+1}，非真實病人`;s.hidden=false;renderPv();showTab('pv');try{history.replaceState(null,'','#pv');}catch(e){}window.scrollTo(0,0);toast(`已帶入病例 ${i+1} 的給付條件`);}
+const yn=v=>v?'符合':'不符合';
+function caseVerdicts(c){
+  const r=runCase(c);
+  const dx=r.secondary?['stop','先排除次發性頭痛','有危險徵象，工具不給原發性診斷']:['go',r.names.join('＋'),'ICHD-3 準則'];
+  const pv=c.pv?['info',r.ahs,`Botox ${yn(r.btx)}、CGRP 單抗 ${yn(r.cgrp)}、topiramate ${yn(r.topi)}`]:['info','不適用','第 2 分頁只判定偏頭痛預防治療'];
+  const vd=([cl,v,how],k)=>`<div class="vd ${cl}"><div class="k">${k}</div><div class="v">${esc(v)}</div><div class="how">${esc(how)}</div></div>`;
+  return vd(dx,'診斷工具')+vd(pv,'AHS 2021 與健保');
+}
+$('#case-list').innerHTML=CASES.map((c,i)=>`<article class="card" data-case="${i}">
+  <div class="case-head"><span class="case-no">病例 ${i+1}</span><h3>${esc(c.title)}</h3><span class="pill info">${esc(c.tag)}</span></div>
+  <p>${esc(c.stem)}</p>
+  <div class="case-tags">${c.data.map(d=>`<span>${esc(d)}</span>`).join('')}</div>
+  <p class="case-ask">${esc(c.ask)}</p>
+  <div class="row case-actions"><button class="btn primary" data-act="show" aria-expanded="false">看判讀</button><button class="btn" data-act="dx">帶入診斷工具</button>${c.pv?'<button class="btn" data-act="pv">帶入給付評估</button>':''}</div>
+  <div class="ans" hidden>
+    <div class="verdicts">${caseVerdicts(c)}</div>
+    <span class="flabel">判讀</span><ul class="plain">${c.reason.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+    <div style="margin-top:10px"><span class="flabel">下一步</span><ul class="plain">${c.next.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="alert warn" style="margin-top:10px"><strong>易錯點</strong><span>${esc(c.pit)}</span></div>
+    <p class="cite">出處：${esc(c.cite)}</p>
+  </div>
+</article>`).join('');
+$('#case-list').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-act]');if(!b)return;
+  const card=b.closest('[data-case]'),i=+card.dataset.case,c=CASES[i];
+  if(b.dataset.act==='show'){const a=card.querySelector('.ans');a.hidden=!a.hidden;b.textContent=a.hidden?'看判讀':'收合判讀';b.setAttribute('aria-expanded',String(!a.hidden));}
+  else if(b.dataset.act==='dx')loadDx(c,i);
+  else loadPv(c,i);
+});
+
+let quizAns={},quizLv='all';
+function renderQuiz(){
+  const L='ABCD';
+  $('#quiz-list').innerHTML=QUIZ.map((x,i)=>{
+    if(quizLv!=='all'&&x.lv!==quizLv)return '';
+    const got=quizAns[i],done=got!=null;
+    return `<article class="card qitem"><span class="qno">第 ${i+1} 題</span><span class="pill ${x.lv==='adv'?'warn':'info'}">${x.lv==='adv'?'高階':'基礎'}</span>
+      <p class="stem">${esc(x.q)}</p>
+      <div class="opts">${x.o.map((t,j)=>`<button class="opt ${done&&j===x.a?'right':''} ${done&&j===got&&j!==x.a?'wrong':''}" data-q="${i}" data-o="${j}" ${done?'disabled':''}><b>${L[j]}</b><span>${esc(t)}</span></button>`).join('')}</div>
+      ${done?`<div class="explain"><strong class="${got===x.a?'ok':'bad'}">${got===x.a?'答對':'答錯，正確答案 '+L[x.a]}</strong>。${esc(x.e)}<div class="cite">出處：${esc(x.s)}</div></div>`:''}
+    </article>`;
+  }).join('');
+  const sc=lv=>{const q=QUIZ.map((x,i)=>[x,i]).filter(([x])=>lv==='all'||x.lv===lv),d=q.filter(([,i])=>quizAns[i]!=null);return [d.filter(([x,i])=>quizAns[i]===x.a).length,d.length,q.length];};
+  const [r,d,n]=sc('all'),[br,bd]=sc('basic'),[ar,ad]=sc('adv');
+  $('#quiz-score').innerHTML=`已答 <b>${d}/${n}</b>，答對 <b>${r}</b>｜基礎 <b>${br}/${bd}</b>｜高階 <b>${ar}/${ad}</b>`;
+}
+$('#quiz-list').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b||b.disabled)return;const i=+b.dataset.q;quizAns[i]=+b.dataset.o;const y=window.scrollY;renderQuiz();window.scrollTo(0,y);});
+segBind('#quiz-filter',v=>{quizLv=v;renderQuiz();});
+$('#quiz-reset').addEventListener('click',()=>{quizAns={};renderQuiz();});
+renderQuiz();
+
+function mapSide(list,side,title){return `<div class="mm-side ${side}"><div class="mm-title">${title}</div>${list.map(([t,lv])=>`<div class="mm-node" data-side="${side}"><button class="mm-btn" aria-expanded="false"><span>${esc(t)}</span><i>＋</i></button><ul hidden>${lv.map(([x,s])=>`<li>${esc(x)}<small>${esc(s)}</small></li>`).join('')}</ul></div>`).join('')}</div>`;}
+$('#mm').innerHTML=`<svg class="links" aria-hidden="true"></svg>${mapSide(MAP.left,'left','診斷')}<div class="mm-root">偏頭痛與頭痛</div>${mapSide(MAP.right,'right','處置')}`;
+function drawMap(){
+  const mm=$('#mm'),svg=mm.querySelector('svg.links');if(!mm.offsetParent||getComputedStyle(svg).display==='none')return;
+  const o=mm.getBoundingClientRect(),rt=mm.querySelector('.mm-root').getBoundingClientRect(),cy=rt.top+rt.height/2-o.top;
+  svg.setAttribute('viewBox',`0 0 ${o.width} ${o.height}`);
+  svg.innerHTML=[...mm.querySelectorAll('.mm-node')].map(n=>{
+    const b=n.querySelector('.mm-btn').getBoundingClientRect(),y=b.top+b.height/2-o.top,left=n.dataset.side==='left';
+    const x1=left?rt.left-o.left:rt.right-o.left,x2=left?b.right-o.left:b.left-o.left,mx=(x1+x2)/2;
+    return `<path class="${left?'l':'r'}" d="M${x1} ${cy} C${mx} ${cy} ${mx} ${y} ${x2} ${y}"/>`;
+  }).join('');
+}
+function setNode(n,open){n.querySelector('ul').hidden=!open;const b=n.querySelector('.mm-btn');b.setAttribute('aria-expanded',String(open));b.querySelector('i').textContent=open?'－':'＋';}
+$('#mm').addEventListener('click',e=>{const b=e.target.closest('.mm-btn');if(!b)return;const n=b.closest('.mm-node');setNode(n,n.querySelector('ul').hidden);drawMap();});
+$('#map-open').addEventListener('click',()=>{$$('.mm-node').forEach(n=>setNode(n,true));drawMap();});
+$('#map-close').addEventListener('click',()=>{$$('.mm-node').forEach(n=>setNode(n,false));drawMap();});
+window.addEventListener('resize',drawMap);
 
 /* ---------- init ---------- */
 renderDx();renderPv();
